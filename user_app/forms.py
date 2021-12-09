@@ -12,6 +12,7 @@ class RegisterForm(forms.ModelForm):
 
     password = forms.CharField(widget=forms.PasswordInput)
     password_2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
+    role = forms.CharField(max_length=255)
 
     class Meta:
         model = User
@@ -56,6 +57,7 @@ class UserAdminCreationForm(forms.ModelForm):
     """
     password = forms.CharField(widget=forms.PasswordInput)
     password_2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
+    role = forms.CharField(max_length=255)
 
     class Meta:
         model = User

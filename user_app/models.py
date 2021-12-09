@@ -3,6 +3,8 @@ from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser)
 
 
 class UserManager(BaseUserManager):
+
+	
 	def create_user(self, email, password=None):
 		"""
 		Creates and saves a User with the given email and password.
@@ -18,6 +20,8 @@ class UserManager(BaseUserManager):
 		user.save(using=self._db)
 		return user
 
+
+
 	def create_staffuser(self, email, password):
 		"""
 		Creates and saves a staff user with the given email and password.
@@ -29,6 +33,8 @@ class UserManager(BaseUserManager):
 		user.staff = True
 		user.save(using=self._db)
 		return user
+
+
 
 	def create_superuser(self, email, password):
 		"""
