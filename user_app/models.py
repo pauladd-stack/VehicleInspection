@@ -46,6 +46,7 @@ class UserManager(BaseUserManager):
 		)
 		user.staff = True
 		user.admin = True
+		user.role = 'Admin'
 		user.save(using=self._db)
 		return user
 
