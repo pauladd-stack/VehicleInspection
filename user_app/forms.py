@@ -12,11 +12,10 @@ class RegisterForm(forms.ModelForm):
 
     password = forms.CharField(widget=forms.PasswordInput)
     password_2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
-    role = forms.CharField(max_length=255)
 
     class Meta:
         model = User
-        fields = ['email', 'role']
+        fields = ['email',]
 
     def clean_email(self):
         '''
@@ -27,16 +26,6 @@ class RegisterForm(forms.ModelForm):
         if qs.exists():
             raise forms.ValidationError("email is taken")
         return email
-
-    def clean_role(self):
-        '''
-        Verify email is available.
-        '''
-        role = self.cleaned_data.get('role')
-        #qs = User.objects.filter(email=email)
-        #if qs.exists():
-            #raise forms.ValidationError("email is taken")
-        return role
 
     def clean(self):
         '''
@@ -57,11 +46,10 @@ class UserAdminCreationForm(forms.ModelForm):
     """
     password = forms.CharField(widget=forms.PasswordInput)
     password_2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
-    role = forms.CharField(max_length=255)
 
     class Meta:
         model = User
-        fields = ['email', 'role']
+        fields = ['email',]
 
     def clean(self):
         '''
@@ -92,7 +80,7 @@ class UserAdminChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['email', 'password', 'is_active', 'admin', 'role']
+        fields = ['email', 'password', 'is_active', 'admin',]
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
