@@ -10,9 +10,10 @@
         </div>
     {% endif %}
 
-<h1>REGISTER</h1>
 
-<div class="form-group">
+
+<div class="shadow p-4 mb-5 bg-body rounded">
+  <h1>REGISTER</h1>
 <form action="{% url 'register_user' %}" method=POST>
 	{% csrf_token %}
   

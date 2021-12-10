@@ -44,13 +44,18 @@ class UserAdminCreationForm(forms.ModelForm):
     A form for creating new users. Includes all the required
     fields, plus a repeated password.
     """
-    password = forms.CharField(widget=forms.PasswordInput)
-    password_2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
-    role = forms.ChoiceField(widget=forms.RadioSelect, choices=[('1', 'Driver'), ('2', 'Mechanic'), ('3', 'Admin')])
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}))
+    password_2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput(attrs={'class':'form-control'}))
+    role = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class':'form-check'}), choices=[('1', 'Driver'), ('2', 'Mechanic'), ('3', 'Admin')])
 
     class Meta:
         model = User
         fields = ['email', 'role']
+
+    def __init__(self, *args, **kwargs):
+        super(UserAdminCreationForm, self).__init__(*args, **kwargs)
+        self.fields['email'].widget.attrs['class'] = 'form-control'
+
 
     def clean(self):
         '''
