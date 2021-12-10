@@ -46,10 +46,11 @@ class UserAdminCreationForm(forms.ModelForm):
     """
     password = forms.CharField(widget=forms.PasswordInput)
     password_2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
+    role = forms.ChoiceField(widget=forms.RadioSelect, choices=[('1', 'Driver'), ('2', 'Mechanic'), ('3', 'Admin')])
 
     class Meta:
         model = User
-        fields = ['email',]
+        fields = ['email', 'role']
 
     def clean(self):
         '''
