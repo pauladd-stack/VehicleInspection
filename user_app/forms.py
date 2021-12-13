@@ -38,6 +38,10 @@ class RegisterForm(forms.ModelForm):
             self.add_error("password_2", "Your passwords must match")
         return cleaned_data
 
+class HorizontalRadioRenderer(forms.RadioSelect):
+    def render(self):
+        return mark_safe(u'\n'.join([u'%s\n' % w for w in self]))
+
 
 class UserAdminCreationForm(forms.ModelForm):
     """
@@ -46,7 +50,7 @@ class UserAdminCreationForm(forms.ModelForm):
     """
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}))
     password_2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput(attrs={'class':'form-control'}))
-    role = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class':'form-check'}), choices=[('1', 'Driver'), ('2', 'Mechanic'), ('3', 'Admin')])
+    role = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': "custom-radio-list"}), choices=[('1', 'Driver'), ('2', 'Mechanic'), ('3', 'Admin')])
 
     class Meta:
         model = User

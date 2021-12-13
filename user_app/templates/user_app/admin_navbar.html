@@ -4,22 +4,18 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button> 
-    <div class="collapse navbar-collapse" id="navbarText">
 
+    <div class="collapse navbar-collapse" id="navbar">
 
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link{% if request.resolver_match.url_name == 'home' %} active{% endif %}" aria-current="page" href="{% url 'home' %}">Home</a>
+          <a class="nav-link{% if request.resolver_match.url_name == 'admin_area' %} active{% endif %}" href="{% url 'admin_area' %}">Admin</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
-        </li>
-        </ul>
 
-
+        <li class="nav-item">
+          <a class="nav-link{% if request.resolver_match.url_name == 'register_user' %} active{% endif %}" href="{% url 'register_user' %}">Create User</a>
+        </li>
+      </ul>
         
       
 
@@ -45,13 +41,9 @@
       </ul>
         
         {% else %}
-        <ul class="navbar-nav">
           <a class="nav-link" href="{% url 'login' %}">Login</a>
-        </ul>
         {% endif %}
 
     </div>
-</div>
+  </div>
 </nav>
-
-
