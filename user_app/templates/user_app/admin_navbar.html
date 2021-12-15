@@ -15,6 +15,9 @@
         <li class="nav-item">
           <a class="nav-link{% if request.resolver_match.url_name == 'register_user' %} active{% endif %}" href="{% url 'register_user' %}">Create User</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link{% if request.resolver_match.url_name == 'user_list' %} active{% endif %}" href="{% url 'user_list' %}">Users</a>
+        </li>
       </ul>
         
       

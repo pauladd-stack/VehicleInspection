@@ -55,6 +55,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
+	id = models.BigAutoField(primary_key=True)
 	email = models.EmailField(
 		verbose_name='email address',
 		max_length=255,

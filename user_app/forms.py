@@ -4,11 +4,12 @@ from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
 User = get_user_model()
 
+'''
 class RegisterForm(forms.ModelForm):
-    """
+
     The default 
 
-    """
+
 
     password = forms.CharField(widget=forms.PasswordInput)
     password_2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
@@ -18,9 +19,9 @@ class RegisterForm(forms.ModelForm):
         fields = ['email',]
 
     def clean_email(self):
-        '''
-        Verify email is available.
-        '''
+
+        #Verify email is available.
+
         email = self.cleaned_data.get('email')
         qs = User.objects.filter(email=email)
         if qs.exists():
@@ -28,9 +29,9 @@ class RegisterForm(forms.ModelForm):
         return email
 
     def clean(self):
-        '''
-        Verify both passwords match.
-        '''
+
+        #Verify both passwords match.
+
         cleaned_data = super().clean()
         password = cleaned_data.get("password")
         password_2 = cleaned_data.get("password_2")
@@ -38,10 +39,7 @@ class RegisterForm(forms.ModelForm):
             self.add_error("password_2", "Your passwords must match")
         return cleaned_data
 
-class HorizontalRadioRenderer(forms.RadioSelect):
-    def render(self):
-        return mark_safe(u'\n'.join([u'%s\n' % w for w in self]))
-
+'''
 
 class UserAdminCreationForm(forms.ModelForm):
     """
@@ -50,7 +48,7 @@ class UserAdminCreationForm(forms.ModelForm):
     """
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}))
     password_2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput(attrs={'class':'form-control'}))
-    role = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': "custom-radio-list"}), choices=[('1', 'Driver'), ('2', 'Mechanic'), ('3', 'Admin')])
+    role = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': "custom-radio-list"}), choices=[('Driver', 'Driver'), ('Mechanic', 'Mechanic'), ('Admin', 'Admin')])
 
     class Meta:
         model = User
@@ -86,14 +84,14 @@ class UserAdminChangeForm(forms.ModelForm):
     the user, but replaces the password field with admin's
     password hash display field.
     """
-    password = ReadOnlyPasswordHashField()
+    #password = ReadOnlyPasswordHashField()
 
     class Meta:
         model = User
-        fields = ['email', 'password', 'is_active', 'admin',]
+        fields = ['email', 'password', 'is_active', 'admin', 'role']
 
-    def clean_password(self):
+    #def clean_password(self):
         # Regardless of what the user provides, return the initial value.
         # This is done here, rather than on the field, because the
         # field does not have access to the initial value
-        return self.initial["password"]
+        #return self.initial["password"]
