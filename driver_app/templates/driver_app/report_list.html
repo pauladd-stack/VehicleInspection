@@ -1,0 +1,28 @@
+{% extends 'user_app/base.html' %}
+
+{% block content %}
+    
+
+<h1>Users</h1>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+ 
+	{% for report in object_list %}
+	<div class="col">
+	<div class="card" style="width: 18rem;">
+		<div class="card-body">
+			<h5 class="card-title">{{report.truck}}</h5>
+			<h6 class="card-subtitle mb-2 text-muted">{{report.date}}</h6>
+			<p class="card-text">
+			Not Repaired
+			
+			</p>
+			<a href="{% url 'update_user' user.id %}" class="card-link">View Report Details...</a>
+			
+		</div>
+	</div>
+	</div>
+	{% endfor %}
+</div>
+
+{% endblock %}

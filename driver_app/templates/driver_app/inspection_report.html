@@ -1,36 +1,33 @@
 {% extends 'user_app/base.html' %}
 
 {% block content %}
-{% if user.is_authenticated and user.role == "Admin" %}
+{% if user.is_authenticated and user.role == "Driver" %}
     
 {% if form.errors %}
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
         {{ form.errors }}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria label="Close"></button>
         </div>
-    {% endif %}
-
+{% endif %}
 
 
 <div class="shadow p-4 mb-5 bg-body rounded">
-  <h1>Update User</h1>
-  <br/>{{ user_pk }} {{ user_pk.id }}
+  <h1>Vehicle Inspection Report</h1>
 <form action="" method=POST>
 	{% csrf_token %}
   
+  <input class="form-control" type="text" placeholder="{{ user.email }}" readonly>
 
   {{ form.as_p }}
 
   <br/>
   <button type="submit" class="btn btn-primary">Submit</button>
 
+
+
 </form>
-<style>
-.custom-radio-list {
-  list-style-type: none;
-}
-</style>
 </div>
+
 {% else %}
 You cannot access this page...
 

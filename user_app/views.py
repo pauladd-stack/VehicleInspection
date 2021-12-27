@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import get_user_model, authenticate, login, logout
+from django.contrib.auth import get_user_model, authenticate, login, logout, update_session_auth_hash
 from .models import User
 from django.contrib import messages
 from .forms import UserAdminCreationForm, UserAdminChangeForm
+from django.contrib.auth.forms import PasswordChangeForm
 from django.views.generic import ListView, DetailView
 
 def home(request):
@@ -15,7 +16,14 @@ def login_user(request):
 		user =  authenticate(request, email=email, password=password)
 		if user is not None:
 			login(request, user)
-			return redirect('home')
+			if request.user.role == 'Driver':
+				return redirect('driver_area')
+			elif request.user.role == 'Mechanic':
+				return redirect('driver_area')
+			elif request.user.role == 'Admin':
+				return redirect('admin_area')
+			else:
+				return redirect('home')
 		else:
 			messages.success(request, ("There was an error while logging you in!"))
 			return redirect('login')
@@ -48,22 +56,38 @@ def register_user(request):
 
 def update_user(request, user_id):
 	user_pk = User.objects.get(id=user_id)
-	print(user_pk.id)
-	if request.method== "POST":
-		form = UserAdminChangeForm(request.POST)
-		if form.is_valid():
-			form.save()
-			#form.clean()
-			#email = form.cleaned_data['email']
-			#password = form.cleaned_data['password']
-			#user = authenticate(email=email, password=password)
-			messages.success(request, ("Updated User!"))
-			return redirect('user_list')
-	else:
-		form = UserAdminChangeForm()
+	form = UserAdminChangeForm(request.POST or None, instance=user_pk)
+	if form.is_valid():
+		form.save()
+		messages.success(request, ("Updated User!"))
+		return redirect('user_list')
 	return render(request, 'user_app/update_user.html', {
 		'form':form, 'user_pk':user_pk
 		})
+
+def delete_user(request, user_id):
+	user = User.objects.get(id=user_id)
+	user.delete()
+	messages.success(request, ("Deleted User!"))
+	return redirect('user_list')
+
+def change_password(request, user_id):
+	user_pk = User.objects.get(id=user_id)
+	form = PasswordChangeForm(user=user_pk, data=request.POST)
+	if request.method == 'POST':
+		if form.is_valid():
+			form.save()
+			update_session_auth_hash(request, form.user)
+			messages.success(request, 'Your password was successfully updated!')
+			return redirect('user_list')
+		else:
+			messages.error(request, 'Please correct the error below.')
+	else:
+		form = PasswordChangeForm(user=user_pk)
+	return render(request, 'user_app/change_password.html', {
+		'form': form, 'user_pk':user_pk,
+		})
+
 
 
 def admin_area(request):

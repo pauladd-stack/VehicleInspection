@@ -13,9 +13,26 @@
 		<div class="card-body">
 			<h5 class="card-title">{{user.email}}</h5>
 			<h6 class="card-subtitle mb-2 text-muted">{{user.role}}</h6>
-			<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+			<p class="card-text">
+			{% if user.is_active %}
+			ACTIVE<br/>
+			{% else %}
+			INACTIVE<br/>
+			{% endif %}
+			{% if user.is_admin %}
+			Administrator<br/>
+			{% else %}
+			Not administrator<br/>
+			{% endif %}
+			{% if user.is_staff %}
+			Staff Member<br/>
+			{% else %}
+			Not Staff<br/>
+			{% endif %}
+			</p>
 			<a href="{% url 'update_user' user.id %}" class="card-link">Update</a>
-			<a href="#" class="card-link">Delete</a>
+			<a href="{% url 'change_password' user.id %}" class="card-link">Pass Change</a>
+			<a href="{% url 'delete_user' user.id %}" class="card-link">Delete</a>
 		</div>
 	</div>
 	</div>

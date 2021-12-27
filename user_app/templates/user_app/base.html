@@ -13,6 +13,7 @@
     {% if user.role == "Admin" %}
       {% include 'user_app/admin_navbar.html' %}<br/>
     {% elif user.role == "Driver" %}
+    {% include 'driver_app/driver_navbar.html' %}<br/>
     {% elif user.role == "Mechanic" %}
     {% else %}
       {% include 'user_app/navbar.html' %}<br/>

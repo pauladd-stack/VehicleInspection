@@ -9,14 +9,13 @@
 
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link{% if request.resolver_match.url_name == 'admin_area' %} active {% elif request.resolver_match.url_name == '' %} active{% endif %}" href="{% url 'admin_area' %}">Admin</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link{% if request.resolver_match.url_name == 'register_user' %} active{% endif %}" href="{% url 'register_user' %}">Create User</a>
+          <a class="nav-link{% if request.resolver_match.url_name == 'driver_area' %} active {% elif request.resolver_match.url_name == '' %} active{% endif %}" href="{% url 'driver_area' %}">Driver</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link{% if request.resolver_match.url_name == 'user_list' %} active{% endif %}" href="{% url 'user_list' %}">Users</a>
+          <a class="nav-link{% if request.resolver_match.url_name == 'inspection_report' %} active {% elif request.resolver_match.url_name == '' %} active{% endif %}" href="{% url 'inspection_report' %}">Vehicle Inspection</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link{% if request.resolver_match.url_name == 'report_list' %} active {% elif request.resolver_match.url_name == '' %} active{% endif %}" href="{% url 'report_list' %}">Reports</a>
         </li>
       </ul>
         
