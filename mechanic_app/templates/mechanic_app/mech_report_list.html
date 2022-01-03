@@ -8,7 +8,6 @@
 <div class="row row-cols-1 row-cols-md-3 g-4">
  
 	{% for report in object_list %}
-	{% if report.driver == user %}
 	<div class="col">
 	<div class="card" style="width: 18rem;">
 		<div class="card-body">
@@ -18,12 +17,12 @@
 			Not Repaired
 			
 			</p>
-			<a href="{% url 'report_details' report.pk %}" class="card-link">View Report Details...</a>
+			<a href="{% url 'mech_report_details' report.pk %}" class="card-link">View Report Details...</a>
 			
 		</div>
 	</div>
 	</div>
-	{% endif %}
+
 	{% endfor %}
 </div>
 

@@ -12,9 +12,15 @@
 
     {% if user.role == "Admin" %}
       {% include 'user_app/admin_navbar.html' %}<br/>
+      {% include 'driver_app/driver_navbar.html' %}<br/>
+      {% include 'mechanic_app/mechanic_navbar.html' %}<br/>
+
     {% elif user.role == "Driver" %}
-    {% include 'driver_app/driver_navbar.html' %}<br/>
+      {% include 'driver_app/driver_navbar.html' %}<br/>
+
     {% elif user.role == "Mechanic" %}
+      {% include 'mechanic_app/mechanic_navbar.html' %}<br/>
+
     {% else %}
       {% include 'user_app/navbar.html' %}<br/>
     {% endif %}

@@ -30,3 +30,7 @@ def inspection_report(request):
 class report_list(ListView):
 	model = VehicleInspectionReport
 	template_name = 'driver_app/report_list.html'
+
+class report_details(DetailView):
+	model = VehicleInspectionReport
+	template_name = 'driver_app/report_details.html'
