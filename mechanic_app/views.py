@@ -10,6 +10,7 @@ def mechanic_area(request):
 class mech_report_list(ListView):
 	model = VehicleInspectionReport
 	template_name = 'mechanic_app/mech_report_list.html'
+	ordering = ['-date']
 
 class mech_report_details(DetailView):
 	model = VehicleInspectionReport
