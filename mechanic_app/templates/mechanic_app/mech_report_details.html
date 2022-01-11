@@ -1,27 +1,24 @@
 {% extends 'user_app/base.html' %}
 
 {% block content %}
+
+<a  onclick="history.back(-1)" role="button"><span class="fas fa-chevron-left"></span> Back</a>
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+<a class="btn btn-secondary" href="#" role="button">Save</a>
+<a class="btn btn-primary" href="#" role="button">Complete</a>
+</div>
+
     
 
 <h1>Report</h1>
 
-<div class="row row-cols-1 row-cols-md-3 g-4">
- 
+<div class="shadow p-4 mb-5 bg-body rounded">
+		{{vehicleinspectionreport.driver}}<br/>
+		{{vehicleinspectionreport.truck}}<br/>
+		{{vehicleinspectionreport.date}}<br/>
+		Not Repaired
 
-	<div class="col">
-	<div class="card" style="width: 18rem;">
-		<div class="card-body">
-			<h5 class="card-title">{{report.truck}}</h5>
-			<h6 class="card-subtitle mb-2 text-muted">{{report.date}}</h6>
-			<p class="card-text">
-			Not Repaired
-			
-			</p>
 
-			
-		</div>
-	</div>
-	</div>
 </div>
 
 {% endblock %}
