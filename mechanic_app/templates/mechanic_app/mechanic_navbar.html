@@ -5,7 +5,7 @@
       <span class="navbar-toggler-icon"></span>
     </button> 
 
-    <div class="collapse navbar-collapse" id="navbar">
+    <div class="collapse navbar-collapse" id="navbarText">
 
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
@@ -13,6 +13,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link{% if request.resolver_match.url_name == 'mech_report_list' %} active {% elif request.resolver_match.url_name == '' %} active{% endif %}" href="{% url 'mech_report_list' %}">Reports</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link{% if request.resolver_match.url_name == 'completed_mech_report_list' %} active {% elif request.resolver_match.url_name == '' %} active{% endif %}" href="{% url 'completed_mech_report_list' %}">Completed Reports</a>
         </li>
       </ul>
         
@@ -30,7 +33,7 @@
           </svg> {{ user.email }}
           </a>
           <ul class="dropdown-menu dropdown-menu-right dropdown-menu-dark" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="#">Profile</a></li>
+            <li><a class="dropdown-item" href="{% url 'user_profile' user.id %}">Profile</a></li>
             <li><a class="dropdown-item" href="#">Settings</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>

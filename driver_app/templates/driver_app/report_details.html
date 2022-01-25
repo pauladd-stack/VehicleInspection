@@ -1,27 +1,37 @@
 {% extends 'user_app/base.html' %}
 
 {% block content %}
+
+<a  onclick="history.back(-1)" role="button"><span class="fas fa-chevron-left"></span> Back</a>
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+{% if report_pk.repairStatus == 0 %}
+<label class="btn btn-secondary" for="update-form" tabindex="0">Update Repair</label>
+{% else %}
+<h4>Not Repaired?...</h4>
+<label class="btn btn-secondary" for="reopen-form" tabindex="0">re-Open Repair Ticket</label>
+{% endif %}
+</div>
+
     
 
 <h1>Report</h1>
 
-<div class="row row-cols-1 row-cols-md-3 g-4">
- 
+<div class="shadow p-4 mb-5 bg-body rounded">
+	<form action="" method=POST>
+	{% csrf_token %}
+	{{ report_pk.driver }} <br/>
+	{{ report_pk.id }} <br/>
+	{{ report_pk.repairStatus }} <br/>
+  
 
-	<div class="col">
-	<div class="card" style="width: 18rem;">
-		<div class="card-body">
-			<h5 class="card-title">{{report.truck}}</h5>
-			<h6 class="card-subtitle mb-2 text-muted">{{report.date}}</h6>
-			<p class="card-text">
-			Not Repaired
-			
-			</p>
+  	{{ form.as_p }}
+  	<br/>
+  	<input type="submit" id="update-form" name="updated-btn" class="d-none"/>
+  	<input type="submit" id="reopen-form" name="reopen-btn" class="d-none"/>
+  	
 
-			
-		</div>
-	</div>
-	</div>
+	</form>
+
 </div>
 
 {% endblock %}

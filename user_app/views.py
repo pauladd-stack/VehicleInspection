@@ -5,9 +5,18 @@ from django.contrib import messages
 from .forms import UserAdminCreationForm, UserAdminChangeForm
 from django.contrib.auth.forms import PasswordChangeForm
 from django.views.generic import ListView, DetailView
+from driver_app.models import VehicleInspectionReport
+import datetime
+from vehicle_website.wraps import admin_only
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
+
+
 
 def home(request):
 	return render(request, 'user_app/home.html', {})
+
 
 def login_user(request):
 	if request.method== "POST":
@@ -19,7 +28,7 @@ def login_user(request):
 			if request.user.role == 'Driver':
 				return redirect('driver_area')
 			elif request.user.role == 'Mechanic':
-				return redirect('driver_area')
+				return redirect('mechanic_area')
 			elif request.user.role == 'Admin':
 				return redirect('admin_area')
 			else:
@@ -32,11 +41,14 @@ def login_user(request):
 	else:
 		return render(request, 'user_app/login.html', {})
 
+@login_required
 def logout_user(request):
 	logout(request)
 	messages.success(request, ("Logged Out!"))
 	return redirect('home')
 
+@login_required
+@admin_only
 def register_user(request):
 	if request.method== "POST":
 		form = UserAdminCreationForm(request.POST)
@@ -54,6 +66,9 @@ def register_user(request):
 		'form':form
 		})
 
+
+@login_required
+@admin_only
 def update_user(request, user_id):
 	user_pk = User.objects.get(id=user_id)
 	form = UserAdminChangeForm(request.POST or None, instance=user_pk)
@@ -65,12 +80,16 @@ def update_user(request, user_id):
 		'form':form, 'user_pk':user_pk
 		})
 
+@login_required
+@admin_only
 def delete_user(request, user_id):
 	user = User.objects.get(id=user_id)
 	user.delete()
 	messages.success(request, ("Deleted User!"))
 	return redirect('user_list')
 
+@login_required
+@admin_only
 def change_password(request, user_id):
 	user_pk = User.objects.get(id=user_id)
 	form = PasswordChangeForm(user=user_pk, data=request.POST)
@@ -88,11 +107,38 @@ def change_password(request, user_id):
 		'form': form, 'user_pk':user_pk,
 		})
 
-
-
+@login_required
+@admin_only
 def admin_area(request):
-	return render(request, 'user_app/admin_area.html', {})
+	obj = VehicleInspectionReport.history.all()
 
+	return render(request, 'user_app/admin_area.html', {'object': obj})
+
+@login_required
+def user_profile(request, user_id):
+	user_pk = User.objects.get(id=user_id)
+	form = UserAdminChangeForm(request.POST or None, instance=user_pk)
+	if form.is_valid():
+		form.save()
+		messages.success(request, ("Updated User!"))
+		return redirect('user_profile')
+	return render(request, 'user_app/user_profile.html', {
+		'form':form, 'user_pk':user_pk
+		})
+
+@login_required
+@admin_only
+def delete_report(request, report_id):
+	report = VehicleInspectionReport.objects.get(id=report_id)
+	report._change_reason = 'Admin deleted report ' + VehicleInspectionReport.objects.get(id=report_id).truck
+	report.lastUpdatedMech = datetime.datetime.now()
+	report.delete()
+	messages.success(request, ("Deleted Report!"))
+	return redirect('mech_report_list')
+
+
+@method_decorator(login_required, name='dispatch')
+@method_decorator(admin_only, name='dispatch')
 class user_list(ListView):
 	model = User
 	template_name = "user_list.html"

@@ -1,7 +1,9 @@
 {% extends 'user_app/base.html' %}
-
+{% load static %}
 {% block content %}
-    
+
+<link rel="stylesheet" href="{% static 'css/card_zoom.css '%}">
+
 
 <h1>Users</h1>
 
@@ -9,7 +11,7 @@
  
 	{% for user in object_list %}
 	<div class="col">
-	<div class="card" style="width: 18rem;">
+	<div class="card zoom" style="width: 18rem;">
 		<div class="card-body">
 			<h5 class="card-title">{{user.email}}</h5>
 			<h6 class="card-subtitle mb-2 text-muted">{{user.role}}</h6>

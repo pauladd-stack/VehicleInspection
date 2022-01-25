@@ -4,8 +4,13 @@
 
 <a  onclick="history.back(-1)" role="button"><span class="fas fa-chevron-left"></span> Back</a>
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-<a class="btn btn-secondary" href="#" role="button">Save</a>
-<a class="btn btn-primary" href="#" role="button">Complete</a>
+{% if report_pk.repairStatus == 0 %}
+<label class="btn btn-secondary" for="save-form" tabindex="0">Save Repair</label>
+<label class="btn btn-primary" for="complete-form" tabindex="0">Complete Repair</label>
+{% else %}
+<h4>Not Repaired?...</h4>
+<label class="btn btn-secondary" for="reopen-form" tabindex="0">re-Open Repair Ticket</label>
+{% endif %}
 </div>
 
     
@@ -13,12 +18,28 @@
 <h1>Report</h1>
 
 <div class="shadow p-4 mb-5 bg-body rounded">
-		{{vehicleinspectionreport.driver}}<br/>
-		{{vehicleinspectionreport.truck}}<br/>
-		{{vehicleinspectionreport.date}}<br/>
-		Not Repaired
+	<form action="" method=POST>
+	{% csrf_token %}
+	{{ report_pk.driver }} <br/>
+	{{ report_pk.id }} <br/>
+	{{ report_pk.repairStatus }} <br/>
+  
 
+  	{{ form.as_p }}
+  	<br/>
+  	<input type="submit" id="save-form" class="d-none" />
+  	<input type="submit" id="complete-form" name="complete-btn" class="d-none"/>
+  	
+
+	</form>
 
 </div>
-
+{% if report_pk.repairStatus == 0 %}
+{% else %}
+<div class="d-grid gap-2">
+			{% if user.role == "Admin" %}
+			<a class="btn btn-danger btn-lg" href="{% url 'delete_report' report_pk.id %}" class="card-link">Delete</a>
+			{% endif %}
+		</div><br/>
+{% endif %}
 {% endblock %}

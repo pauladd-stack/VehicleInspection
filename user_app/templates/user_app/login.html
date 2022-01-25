@@ -1,33 +1,52 @@
 {% extends 'user_app/base.html' %}
-
+{% load static %}
 {% block content %}
-    
 
-<h1>LOGIN</h1>
+<div class="container">
+  <div class="row">
+    <div class="col">
 
+
+
+<div class="shadow p-4 mb-5 bg-body rounded" style="width: 30rem;">
+
+<h1 class="text-center">LOGIN</h1>
 <form action="" method=POST>
 	{% csrf_token %}
 
-	<form>
-  <div class="form-group">
+	
+  <div class="form-group ">
     <label for="email">Email address</label>
-
     <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email">
-
-    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-
+    <br/>
   </div>
+
   <div class="form-group">
     <label for="password">Password</label>
     <input type="password" class="form-control" id="password" name="password" placeholder="Password">
   </div>
 
   <br/>
+  
+  <div class="d-grid gap-2">
   <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+</div>
 
 
 </form>
+</div>
+
+</div>
+<div class="col">
+
+<div class="shadow p-4 mb-5 bg-body rounded" style="width: 30rem;">
+  <h1>Title</h1>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam tortor dui, viverra auctor dui id, consequat fringilla eros. Aliquam sagittis accumsan orci, id convallis orci. Nulla mattis auctor viverra. In ac sem gravida, interdum metus sed, venenatis risus. Fusce tempus justo eu facilisis vestibulum. Phasellus pulvinar non est sed pharetra. Maecenas vel turpis ut neque pellentesque malesuada vitae nec nisl. Ut ultricies cursus semper. Phasellus imperdiet massa a diam molestie vehicula.
+
+Aenean euismod tellus posuere sodales mollis. Aenean hendrerit diam id ultricies viverra. Aenean sed velit et metus semper malesuada. Suspendisse rhoncus hendrerit vestibulum. Etiam dapibus fringilla efficitur. Nunc nec bibendum tellus. Interdum et malesuada fames ac ante ipsum primis in faucibus.</p>
+  </div>
+</div>
+
 
 
 {% endblock %}

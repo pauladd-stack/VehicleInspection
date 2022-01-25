@@ -1,7 +1,6 @@
 {% extends 'user_app/base.html' %}
 
 {% block content %}
-{% if user.is_authenticated and user.role == "Driver" %}
     
 {% if form.errors %}
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -13,6 +12,9 @@
 
 <div class="shadow p-4 mb-5 bg-body rounded">
   <h1>Vehicle Inspection Report</h1>
+
+
+
 <form action="" method=POST>
 	{% csrf_token %}
   
@@ -28,8 +30,24 @@
 </form>
 </div>
 
-{% else %}
-You cannot access this page...
 
-{% endif %}
+
+<script type="text/javascript">
+$("#engine").hide();
+$("#engine".label).hide();
+$('#engine_check').click(function(){
+
+    if(this.checked) {
+      $("#engine").show();
+    }
+
+    else{
+      $("#engine").hide();
+    }
+
+    
+
+  });
+</script>
+
 {% endblock %}

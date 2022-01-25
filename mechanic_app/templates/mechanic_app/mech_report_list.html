@@ -1,28 +1,38 @@
 {% extends 'user_app/base.html' %}
-
+{% load static %}
 {% block content %}
-    
 
-<h1>Users</h1>
+<link rel="stylesheet" href="{% static 'css/card_zoom.css '%}">
+
+
+<h1>Reports</h1>
 
 <div class="row row-cols-1 row-cols-md-3 g-4">
  
 	{% for report in object_list %}
+	{% if report.repairStatus == True %}
+	{% else %}
 	<div class="col">
-	<div class="card" style="width: 18rem;">
+	<div class="card zoom" style="width: 18rem;">
 		<div class="card-body">
 			<h5 class="card-title">{{report.truck}}</h5>
 			<h6 class="card-subtitle mb-2 text-muted">{{report.driver}} - {{report.date}}</h6>
 			<p class="card-text">
-			Not Repaired
-			
+			{{ report.repairStatus }}
+		
 			</p>
-			<a href="{% url 'mech_report_details' report.pk %}" class="btn btn-primary">Start Repair</a>
+
 			
+			<div class="d-grid gap-2">
+				<a href="{% url 'mechanic_report_details' report.pk %}" class="btn btn-primary">Start Repair</a> 
+{% if user.role == "Admin" %}
+			<a class="btn btn-danger" href="{% url 'delete_report' report.id %}" class="card-link">Delete</a>
+			{% endif %}
+		</div>
 		</div>
 	</div>
 	</div>
-
+	{% endif %}
 	{% endfor %}
 </div>
 

@@ -1,7 +1,5 @@
 {% extends 'user_app/base.html' %}
-
 {% block content %}
-{% if user.is_authenticated and user.role == "Admin" %}
     
 {% if form.errors %}
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -31,8 +29,4 @@
 }
 </style>
 </div>
-{% else %}
-You cannot access this page...
-
-{% endif %}
 {% endblock %}
