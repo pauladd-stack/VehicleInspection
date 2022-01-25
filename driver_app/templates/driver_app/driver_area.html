@@ -1,8 +1,9 @@
-{% extends 'user_app/base.html' %}
+{% extends 'general_app/base.html' %}
 {% load static %}
-
-
 {% block content %}
+
+<link rel="stylesheet" href="{% static 'css/driver_app/driver_area.css '%}">
+
 
 <div class="container-fluid">
 
@@ -14,36 +15,37 @@
      	<i class="fas fa-user-circle fa-7x"></i>
      	<p>{{ user }}</p>
 		<p>{{ user.id }}</p>
-	</div>
+	   </div>
     </div>
 
 
-      <div class="col" style="width:300px; overflow:hidden;">
+      <div class="col" id="report-history">
       <div class="p-3 border bg-light">
           <p>Report History</p>
-  <table class="table table-striped" style="table-layout: fixed;">
-    <col width="15%" />
-    <col width="50%" />
-  <thead>
-    <tr>
-      <th scope="col">Vehicle #</th>
-      <th scope="col">Description of change...</th>
-      <th scope="col">Date</th>
-    </tr>
-  </thead>
-  <tbody>
-  {% for h in object%}
-    <tr>
-      <th scope="row">{{ h.instance }}</th>
-     <td style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap;">{{ h.history_change_reason }}</td>
-     
-      <td> {%if h.lastUpdatedMech >= h.lastUpdatedUser or h.lastUpdatedUser == null %} {{ h.lastUpdatedMech }} {% else %} {{ h.lastUpdatedUser }} {% endif %}</td> 
+
+          <table class="table table-striped">
+            <col width="15%" />
+            <col width="50%" />
+          <thead>
+            <tr>
+              <th scope="col">Vehicle #</th>
+              <th scope="col">Description of change...</th>
+              <th scope="col">Date</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for h in object%}
+            <tr>
+              <th scope="row">{{ h.instance }}</th>
+             <td id="change-desc" style="">{{ h.history_change_reason }}</td>
+             
+              <td> {%if h.lastUpdatedMech >= h.lastUpdatedUser or h.lastUpdatedUser == null %} {{ h.lastUpdatedMech }} {% else %} {{ h.lastUpdatedUser }} {% endif %}</td> 
 
 
-    </tr>
-    {% endfor %}
-  </tbody>
-  </table>
+            </tr>
+            {% endfor %}
+          </tbody>
+          </table>
     </div>
     </div>
 

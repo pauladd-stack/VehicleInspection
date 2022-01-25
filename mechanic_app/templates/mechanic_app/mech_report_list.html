@@ -1,4 +1,4 @@
-{% extends 'user_app/base.html' %}
+{% extends 'general_app/base.html' %}
 {% load static %}
 {% block content %}
 
@@ -13,7 +13,7 @@
 	{% if report.repairStatus == True %}
 	{% else %}
 	<div class="col">
-	<div class="card zoom" style="width: 18rem;">
+	<div class="card zoom">
 		<div class="card-body">
 			<h5 class="card-title">{{report.truck}}</h5>
 			<h6 class="card-subtitle mb-2 text-muted">{{report.driver}} - {{report.date}}</h6>

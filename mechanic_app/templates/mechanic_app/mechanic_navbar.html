@@ -1,3 +1,7 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/navbar.css '%}">
+
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">VIPR</a>
@@ -27,10 +31,8 @@
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 
-            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-            <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
-          </svg> {{ user.email }}
+            <span id="profile-pic">{{ user.email }}</span> <i class="fas fa-user-circle fa-2x"></i>
+
           </a>
           <ul class="dropdown-menu dropdown-menu-right dropdown-menu-dark" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" href="{% url 'user_profile' user.id %}">Profile</a></li>
@@ -43,7 +45,9 @@
       </ul>
         
         {% else %}
-          <a class="nav-link" href="{% url 'login' %}">Login</a>
+          <a class="nav-link" href="{% url 'login' %}"> <span id="login">Login</span>
+          <i class="fas fa-sign-in-alt fa-2x" id="sign-in-logo"></i>
+          </a>
         {% endif %}
 
     </div>

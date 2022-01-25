@@ -1,8 +1,8 @@
-{% extends 'user_app/base.html' %}
+{% extends 'general_app/base.html' %}
 {% load static %}
-
-
 {% block content %}
+
+<link rel="stylesheet" href="{% static 'css/user_app/admin_area.css '%}">
 
 <div class="container-fluid">
 
@@ -18,10 +18,10 @@
     </div>
 
 
-    <div class="col" style="width:300px; overflow:hidden;">
+    <div class="col" id="report-history">
       <div class="p-3 border bg-light">
           <p>Report History</p>
-  <table class="table table-striped" style="table-layout: fixed;">
+  <table class="table table-striped">
     <col width="15%" />
     <col width="50%" />
   <thead>
@@ -35,7 +35,7 @@
   {% for h in object%}
     <tr>
       <th scope="row">{{ h.instance }}</th>
-     <td style="overflow:hidden; text-overflow: ellipsis; white-space: nowrap;">{{ h.history_change_reason }}</td>
+     <td id="change-desc">{{ h.history_change_reason }}</td>
      
       <td> {%if h.lastUpdatedMech >= h.lastUpdatedUser or h.lastUpdatedUser == null %} {{ h.lastUpdatedMech }} {% else %} {{ h.lastUpdatedUser }} {% endif %}</td> 
 

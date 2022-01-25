@@ -30,6 +30,8 @@ INSTALLED_APPS = [
     'user_app',
     'driver_app',
     'mechanic_app',
+    'login_app',
+    'general_app',
 ]
 
 MIDDLEWARE = [
@@ -108,7 +110,7 @@ USE_TZ = True
 
 
 
-STATIC_URL = '/static/'
+STATIC_URL = 'static/'
 
 
 

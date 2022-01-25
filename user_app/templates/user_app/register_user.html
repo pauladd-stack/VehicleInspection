@@ -1,6 +1,9 @@
-{% extends 'user_app/base.html' %}
+{% extends 'general_app/base.html' %}
+{% load static%}
 {% block content %}
-    
+<link rel="stylesheet" href="{% static 'css/user_app/register_user.css '%}">
+
+
 {% if form.errors %}
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
         {{ form.errors }}
@@ -24,11 +27,6 @@
 
 
 </form>
-<style>
-.custom-radio-list {
-  list-style-type: none;
-}
-</style>
 </div>
 
 {% endblock %}

@@ -1,0 +1,63 @@
+{% extends 'general_app/base.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/login_app/login.css '%}">
+
+
+<div class="container">
+  <div class="row">
+    <div class="col">
+
+
+
+<div class="shadow p-4 mb-5 bg-body rounded" id="login-container">
+
+<h1 class="text-center">LOGIN</h1>
+<form action="" method=POST>
+	{% csrf_token %}
+
+	
+  <div class="form-group ">
+    <label for="email">Email address</label>
+    <input type="email" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email">
+    <br/>
+  </div>
+
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+  </div>
+
+  <br/>
+  
+  <div class="d-grid gap-2">
+  <button type="submit" class="btn btn-primary">Submit</button>
+</div>
+
+
+</form>
+</div>
+
+</div>
+<div class="col">
+
+<div class="shadow p-4 mb-5 bg-body rounded" id="login-about">
+  <h1>What is our goal?</h1>
+  <p>The goal of VIPR is to expedite the weekly tasks of filling out vehicle inspection reports and mechanic repairs. VIPR will provide mechanics with enough information to make the best decisions and preplan repairs on vehicles. It will also keep drivers updated on repairs, and allow drivers to see a more detailed explanation of what goes into repairs.</p>
+
+  <div>
+    <h4>Need Help</h4>
+    <p> Contact us!</p>
+    <a href="vipr.support@csfco.com">VIPR.support@csfco.com</a><br/>
+    <a href="256-341-3680">256-341-3680</a>
+    <br/>
+    <small>
+    Please bare with us as we continue to roll out new features and benefits to VIPR!!</small>
+  </div>
+  </div>
+</div>
+
+
+
+{% endblock %}

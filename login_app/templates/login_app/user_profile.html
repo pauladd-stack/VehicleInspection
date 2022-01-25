@@ -1,0 +1,33 @@
+{% extends 'general_app/base.html' %}
+{% block content %}
+    
+{% if form.errors %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {{ form.errors }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria label="Close"></button>
+        </div>
+    {% endif %}
+
+
+
+<div class="shadow p-4 mb-5 bg-body rounded">
+  <h1>Update User</h1>
+  <br/>{{ user_pk }} {{ user_pk.id }}
+<form action="" method=POST>
+	{% csrf_token %}
+  
+
+  {{ form.as_p }}
+
+  <br/>
+  <button type="submit" class="btn btn-primary">Submit</button>
+
+</form>
+<style>
+.custom-radio-list {
+  list-style-type: none;
+}
+</style>
+</div>
+
+{% endblock %}
