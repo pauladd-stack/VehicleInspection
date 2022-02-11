@@ -28,6 +28,14 @@ class mech_report_list(ListView):
 	template_name = 'mechanic_app/mech_report_list.html'
 	ordering = ['-date']
 
+	def get_queryset(self):
+		truck = self.request.GET.get('truck')
+		print(truck)
+		object_list = self.model.objects.all()
+		if truck:
+			object_list = self.model.objects.filter(truck__icontains=truck)
+
+		return object_list
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(mechanic_only, name='dispatch')
@@ -35,6 +43,15 @@ class completed_mech_report_list(ListView):
 	model = VehicleInspectionReport
 	template_name = 'mechanic_app/completed_mech_report_list.html'
 	ordering = ['-date']
+
+	def get_queryset(self):
+		truck = self.request.GET.get('truck')
+		print(truck)
+		object_list = self.model.objects.all()
+		if truck:
+			object_list = self.model.objects.filter(truck__icontains=truck)
+
+		return object_list
 
 
 @login_required

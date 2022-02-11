@@ -19,33 +19,32 @@
     </div>
 
 
-      <div class="col" id="report-history">
+<div class="col no-scrollbar" id="report-history">
       <div class="p-3 border bg-light">
           <p>Report History</p>
+  <table class="table table-striped">
+    <col width="15%" />
+    <col width="50%" />
+  <thead>
+    <tr>
+      <th scope="col">Vehicle #</th>
+      <th scope="col">Description of change...</th>
+      <th scope="col">Date</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for h in object%}
+    <tr>
+      <th scope="row">{{ h.instance }}</th>
+     <td id="change-desc">{{ h.history_change_reason }}</td>
+     
+      <td> {%if h.lastUpdatedMech >= h.lastUpdatedUser or h.lastUpdatedUser == null %} {{ h.lastUpdatedMech }} {% else %} {{ h.lastUpdatedUser }} {% endif %}</td> 
 
-          <table class="table table-striped">
-            <col width="15%" />
-            <col width="50%" />
-          <thead>
-            <tr>
-              <th scope="col">Vehicle #</th>
-              <th scope="col">Description of change...</th>
-              <th scope="col">Date</th>
-            </tr>
-          </thead>
-          <tbody>
-          {% for h in object%}
-            <tr>
-              <th scope="row">{{ h.instance }}</th>
-             <td id="change-desc" style="">{{ h.history_change_reason }}</td>
-             
-              <td> {%if h.lastUpdatedMech >= h.lastUpdatedUser or h.lastUpdatedUser == null %} {{ h.lastUpdatedMech }} {% else %} {{ h.lastUpdatedUser }} {% endif %}</td> 
 
-
-            </tr>
-            {% endfor %}
-          </tbody>
-          </table>
+    </tr>
+    {% endfor %}
+  </tbody>
+  </table>
     </div>
     </div>
 

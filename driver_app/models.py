@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from simple_history.models import HistoricalRecords
+from equipment_app.models import Equipment
 
 
 User = get_user_model()
@@ -8,8 +9,8 @@ User = get_user_model()
 class VehicleInspectionReport(models.Model):
 	id = models.BigAutoField(primary_key=True)
 	driver = models.ForeignKey(User, on_delete=models.CASCADE)
+	equipment = models.CharField('Equipment', max_length=120, default="")
 	date = models.DateField('Date')
-	truck = models.CharField('Truck Number', max_length=120)
 	
 	assignedMech = models.CharField('Assigned Mechanic', max_length=120, default="")
 	repairStatus = models.BooleanField(default=False)
@@ -35,9 +36,4 @@ class VehicleInspectionReport(models.Model):
 		self.changed_by = value
 
 	def __str__(self):
-		return self.truck
-
-
-
-
-
+		return str(self.equipment)

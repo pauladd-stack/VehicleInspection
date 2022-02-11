@@ -1,0 +1,14 @@
+#report-history{
+	width:300px; 
+	overflow:hidden;
+}
+
+#change-desc{
+	overflow:hidden; 
+	text-overflow: ellipsis; 
+	white-space: nowrap;
+}
+
+.table{
+	table-layout: fixed;
+}

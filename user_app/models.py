@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import (BaseUserManager, AbstractBaseUser)
 
-
 class UserManager(BaseUserManager):
 
 
@@ -66,6 +65,7 @@ class User(AbstractBaseUser):
 	admin = models.BooleanField(default=False) # a superuser
 
 	role = models.CharField(max_length=255)
+
 
 	# notice the absence of a "Password field", that is built in.
 

@@ -14,7 +14,7 @@
     <script src="https://kit.fontawesome.com/f45085c2b9.js" crossorigin="anonymous"></script>
 
     <!-- JQuery -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
     <link rel="stylesheet" href="{% static 'css/general_app/base_styling.css '%}">
     <link rel="stylesheet" href="{% static 'css/scrollbar.css '%}">
@@ -37,8 +37,8 @@
       {% include 'general_app/navbar.html' %}<br/>
     {% endif %}
     
+
     <div class="container-fluid">
-    
     {% if messages %}
       {% for message in messages %}
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -47,33 +47,21 @@
         </div>
       {% endfor %}
     {% endif %}
+  
 
-    
-
+    <div id="content">
     {% block content %}
     {% endblock %}
+  </div>
+</div>
+
+{% include 'general_app/footer.html' %}
 
 
-
-    <!-- Option 1: Bootstrap Bundle with Popper-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     
-<br/><br/><br/><br/><br/><br/>
-
-    <div class="footer-basic">
-        <footer>
-            <div class="social"><a href="#"><i class="icon ion-social-instagram"></i></a><a href="#"><i class="icon ion-social-snapchat"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a><a href="#"><i class="icon ion-social-facebook"></i></a></div>
-            <ul class="list-inline">
-                <li class="list-inline-item"><a href="#">Home</a></li>
-                <li class="list-inline-item"><a href="#">Services</a></li>
-                <li class="list-inline-item"><a href="#">About</a></li>
-                <li class="list-inline-item"><a href="#">Terms</a></li>
-                <li class="list-inline-item"><a href="#">Privacy Policy</a></li>
-            </ul>
-            <p class="copyright">VIPR © 2021</p>
-        </footer>
-    </div>
 
 
   </body>
+  <!-- Option 1: Bootstrap Bundle with Popper-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 </html>

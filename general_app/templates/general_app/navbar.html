@@ -18,10 +18,10 @@
           <a class="nav-link{% if request.resolver_match.url_name == 'home' %} active{% endif %}" aria-current="page" href="{% url 'home' %}">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
+          <a class="nav-link" href="{% url 'features' %}">Features</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Pricing</a>
+          <a class="nav-link" href="{% url 'pricing' %}">Pricing</a>
         </li>
         </ul>
 

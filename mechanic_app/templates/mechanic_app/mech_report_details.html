@@ -1,19 +1,26 @@
 {% extends 'general_app/base.html' %}
-
+{% load static %}
 {% block content %}
 
+<link rel="stylesheet" href="{% static 'css/modal.css '%}">
+
+
+
 <a  onclick="history.back(-1)" role="button"><span class="fas fa-chevron-left"></span> Back</a>
+
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+
 {% if report_pk.repairStatus == 0 %}
 <label class="btn btn-secondary" for="save-form" tabindex="0">Save Repair</label>
+
 <label class="btn btn-primary" for="complete-form" tabindex="0">Complete Repair</label>
+
 {% else %}
 <h4>Not Repaired?...</h4>
 <label class="btn btn-secondary" for="reopen-form" tabindex="0">re-Open Repair Ticket</label>
 {% endif %}
-</div>
 
-    
+</div>
 
 <h1>Report</h1>
 
@@ -36,10 +43,65 @@
 </div>
 {% if report_pk.repairStatus == 0 %}
 {% else %}
-<div class="d-grid gap-2">
-			{% if user.role == "Admin" %}
-			<a class="btn btn-danger btn-lg" href="{% url 'delete_report' report_pk.id %}" class="card-link">Delete</a>
-			{% endif %}
-		</div><br/>
-{% endif %}
+	<div class="d-grid gap-2">
+			
+
+		{% if user.role == "Admin" %}
+			<a class="btn btn-danger" onclick="document.getElementById('id01').style.display='block'">Delete</a>
+		{% endif %}
+	</div>
+
+{% endif %}	
+
+
+		<!-- The Modal -->
+		<div id="id01" class="modal">
+		  <form class="modal-content" action="">
+		    <div class="container">
+		    	<h1>Delete Entry?</h1>
+		    	
+		    	<p>Are you sure you want to delete this entry?</p>
+
+
+		    	<div class="form-check">
+				  <input class="form-check-input" type="checkbox" value="" id="delete_check">
+				  <label class="form-check-label" for="delete_check">
+				    Yes, I want to delete this entry...
+				  </label>
+				</div>
+				<br/>
+
+		        <a type="button" class="btn btn-secondary"href="">Cancel</a>
+
+		        <a type="button"class="btn btn-danger disabled" id="deletebutton" href="{% url 'delete_report' report_pk.id %}">Delete</a>
+		    </div>
+		  </form>
+		</div>
+		<script type="text/javascript">
+		$('#delete_check').click(function(){
+
+		    if(this.checked) {
+		      $("#deletebutton").removeClass('disabled');
+		      console.log('checked');
+		    }
+
+		    else{
+		      $("#deletebutton").addClass("disabled");
+		      console.log("unchecked");
+		    }
+		  });
+		</script>
+
+		<script>
+		// Get the modal
+		var modal = document.getElementById('id01');
+
+		// When the user clicks anywhere outside of the modal, close it
+		window.onclick = function(event) {
+		  if (event.target == modal) {
+		    modal.style.display = "none";
+		  }
+		}
+		</script>
+
 {% endblock %}

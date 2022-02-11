@@ -21,6 +21,9 @@
         <li class="nav-item">
           <a class="nav-link{% if request.resolver_match.url_name == 'completed_mech_report_list' %} active {% elif request.resolver_match.url_name == '' %} active{% endif %}" href="{% url 'completed_mech_report_list' %}">Completed Reports</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link{% if request.resolver_match.url_name == 'equipment' %} active {% elif request.resolver_match.url_name == '' %} active{% endif %}" href="{% url 'equipment' %}">Equipment</a>
+        </li>
       </ul>
         
       

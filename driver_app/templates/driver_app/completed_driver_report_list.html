@@ -7,6 +7,13 @@
 
 <h1>Completed Reports</h1>
 
+<div>
+<form class="d-flex" method="GET" action="">
+	<input class="form-control me-2" type="search" name="truck" placeholder="Search for user..."><span><button class="btn btn-primary" type="submit">Search</button></span></input>
+</form>
+</div>
+<br/>
+
 <div class="row row-cols-1 row-cols-md-3 g-4">
  
 	{% for report in object_list %}
@@ -16,11 +23,14 @@
 	<div class="col">
 	<div class="card zoom">
 		<div class="card-body">
-			<h5 class="card-title">{{report.truck}}</h5>
+			<h5 class="card-title">{{report.equipment}}</h5>
 			<h6 class="card-subtitle mb-2 text-muted">{{report.driver}} - {{report.date}}</h6>
 			<p class="card-text">
-			{{ report.repairStatus }}
-			
+			{% if report.repairStatus == True %}
+			<p>Repaired</p>
+			{% else %}
+			<p>Not Repaired</p>
+			{% endif %}			
 			</p>
 
 			<a href="{% url 'driver_report_details' report.pk %}" class="card-link">View Report Details...</a>

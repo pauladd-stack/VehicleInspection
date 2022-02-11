@@ -6,8 +6,9 @@ from user_app.forms import UserAdminChangeForm
 from django.contrib.auth.forms import PasswordChangeForm
 import datetime
 from django.contrib.auth.decorators import login_required
+from .forms import LoginForm
 
-
+'''
 def login_user(request):
 	if request.method== "POST":
 		email = request.POST.get('email')
@@ -24,12 +25,40 @@ def login_user(request):
 			else:
 				return redirect('home')
 		else:
-			messages.success(request, ("There was an error while logging you in!"))
+			messages.error(request, ("There was an error while logging you in!"))
 			return redirect('login')
 
 
 	else:
 		return render(request, 'login_app/login.html', {})
+'''
+
+def login_user(request):
+	if request.method== "POST":
+		form = LoginForm(request.POST)
+		email = request.POST['email']
+		password = request.POST['password']
+		user =  authenticate(request, email=email, password=password)
+		if user is not None:
+			login(request, user)
+			if request.user.role == 'Driver':
+				return redirect('driver_area')
+			elif request.user.role == 'Mechanic':
+				return redirect('mechanic_area')
+			elif request.user.role == 'Admin':
+				return redirect('admin_area')
+			else:
+				return redirect('home')
+		else:
+			messages.error(request, ("There was an error while logging you in!"))
+			return redirect('login')
+
+
+	else:
+		form = LoginForm(request.POST)
+		return render(request, 'login_app/login.html', {'form': form,})
+
+
 
 @login_required
 def logout_user(request):

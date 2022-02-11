@@ -3,13 +3,22 @@ from django.contrib.auth import get_user_model, authenticate, login, logout, upd
 from .models import User
 from django.contrib import messages
 from .forms import UserAdminCreationForm, UserAdminChangeForm
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import SetPasswordForm
 from django.views.generic import ListView, DetailView
 from driver_app.models import VehicleInspectionReport
 import datetime
 from vehicle_website.wraps import admin_only
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.http import HttpResponse
+import csv
+from django.http import FileResponse
+import io 
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch 
+from reportlab.lib.pagesizes import letter 
+
+
 
 
 @login_required
@@ -57,7 +66,7 @@ def delete_user(request, user_id):
 @admin_only
 def change_password(request, user_id):
 	user_pk = User.objects.get(id=user_id)
-	form = PasswordChangeForm(user=user_pk, data=request.POST)
+	form = SetPasswordForm(user=user_pk, data=request.POST)
 	if request.method == 'POST':
 		if form.is_valid():
 			form.save()
@@ -67,7 +76,7 @@ def change_password(request, user_id):
 		else:
 			messages.error(request, 'Please correct the error below.')
 	else:
-		form = PasswordChangeForm(user=user_pk)
+		form = SetPasswordForm(user=user_pk)
 	return render(request, 'user_app/change_password.html', {
 		'form': form, 'user_pk':user_pk,
 		})
@@ -92,8 +101,66 @@ def delete_report(request, report_id):
 	return redirect('mech_report_list')
 
 
+@login_required
+@admin_only
+def report_pdf(request):
+	buf = io.BytesIO()
+	c = canvas.Canvas(buf, pagesize=letter, bottomup=0)
+
+	textob = c.beginText()
+	textob.setTextOrigin(inch, inch)
+	textob.setFont("Helvetica", 14)
+
+	
+	reports = VehicleInspectionReport.objects.all()
+
+	lines = []
+
+	for report in reports:
+		lines.append(f'{report.truck}\n {report.driver}')
+
+		
+
+	for line in lines:
+		textob.textLine(line)
+
+	c.drawText(textob)
+	c.showPage()
+	c.save()
+	buf.seek(0)
+
+	return FileResponse(buf, as_attachment=True, filename='report.pdf')
+
+
+@login_required
+@admin_only
+def report_csv(request):
+	response = HttpResponse(content_type='text/csv')
+	response['Content-Disposition'] = 'attachment; filename=report.csv'
+
+	writer = csv.writer(response)
+
+	reports = VehicleInspectionReport.objects.all()
+
+	writer.writerow(['Truck', 'Driver', 'Date', 'Status'])
+
+	for report in reports:
+		writer.writerow([report.truck, report.driver, report.date, report.repairStatus])
+
+	return response
+
+
 @method_decorator(login_required, name='dispatch')
 @method_decorator(admin_only, name='dispatch')
 class user_list(ListView):
 	model = User
 	template_name = "user_list.html"
+
+	def get_queryset(self):
+		email = self.request.GET.get('email')
+		print(email)
+		object_list = self.model.objects.all()
+		if email:
+			object_list = self.model.objects.filter(email__icontains=email)
+
+		return object_list

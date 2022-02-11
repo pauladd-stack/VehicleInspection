@@ -7,6 +7,23 @@
 
 <h1>Completed Reports</h1>
 
+{% if user.role == 'Admin' %}
+<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+	<p>Download report summary:</p>
+	<a href="{% url 'report_csv' %}"><i class="fas fa-file-csv fa-2x"></i></a><br/>
+	<a href="{% url 'report_pdf' %}"><i class="fas fa-file-pdf fa-2x"></i></a>
+</div>
+
+{% else %}
+{% endif %}
+
+<div>
+<form class="d-flex" method="GET" action="">
+	<input class="form-control me-2" type="search" name="truck" placeholder="Search for user..."><span><button class="btn btn-primary" type="submit">Search</button></span></input>
+</form>
+</div>
+<br/>
+
 <div class="row row-cols-1 row-cols-md-3 g-4">
  
 	{% for report in object_list %}
@@ -15,11 +32,14 @@
 	<div class="col">
 	<div class="card zoom" style="width: 18rem;">
 		<div class="card-body">
-			<h5 class="card-title">{{report.truck}}</h5>
+			<h5 class="card-title">{{report.equipment}}</h5>
 			<h6 class="card-subtitle mb-2 text-muted">{{report.driver}} - {{report.date}}</h6>
 			<p class="card-text">
-			{{ report.repairStatus }}
-			
+			{% if report.repairStatus == True %}
+			<p>Repaired</p>
+			{% else %}
+			<p>Not Repaired</p>
+			{% endif %}			
 			</p>
 			<a href="{% url 'mechanic_report_details' report.pk %}" class="card-link">View Report Details...</a>
 		

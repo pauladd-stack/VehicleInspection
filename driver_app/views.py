@@ -7,6 +7,7 @@ import datetime
 from vehicle_website.wraps import driver_only
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from equipment_app.models import Equipment
 
 @login_required
 @driver_only
@@ -22,6 +23,7 @@ def inspection_report(request):
 		if form.is_valid():
 			driver = form.save(commit=False)
 			driver.driver = request.user
+			driver.equipment = request.POST['equipment']
 			driver.lastUpdatedUser = datetime.datetime.now()
 			driver._change_reason = 'Driver created a new ticket'
 			driver.save()
@@ -32,9 +34,10 @@ def inspection_report(request):
 			
 	else:
 		form = VehicleInspectionForm()
-
+		
+	equipment = Equipment.objects.all()
 	return render(request, 'driver_app/inspection_report.html', {
-		'form': form,
+		'form': form, 'equipment': equipment,
 		})
 
 
@@ -45,6 +48,15 @@ class report_list(ListView):
 	template_name = 'driver_app/report_list.html'
 	ordering = ['-date']
 
+	def get_queryset(self):
+		truck = self.request.GET.get('truck')
+		print(truck)
+		object_list = self.model.objects.all()
+		if truck:
+			object_list = self.model.objects.filter(truck__icontains=truck)
+
+		return object_list
+
 
 @method_decorator(login_required, name='dispatch')
 @method_decorator(driver_only, name='dispatch')
@@ -52,6 +64,15 @@ class completed_driver_report_list(ListView):
 	model = VehicleInspectionReport
 	template_name = 'driver_app/completed_driver_report_list.html'
 	ordering = ['-date']
+
+	def get_queryset(self):
+		truck = self.request.GET.get('truck')
+		print(truck)
+		object_list = self.model.objects.all()
+		if truck:
+			object_list = self.model.objects.filter(truck__icontains=truck)
+
+		return object_list
 
 
 @login_required

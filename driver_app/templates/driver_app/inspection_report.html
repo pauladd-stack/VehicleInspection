@@ -11,7 +11,7 @@
 
 
 <div class="shadow p-4 mb-5 bg-body rounded">
-  <h1>Vehicle Inspection Report</h1>
+  <h1>Vehicle Inspection Report</h1><br/>
 
 
 
@@ -19,6 +19,18 @@
 	{% csrf_token %}
   
   <input class="form-control" type="text" placeholder="{{ user.email }}" readonly>
+  <br/>
+
+  <label for="equipment">What equipment are you creating this report for?:</label>
+  <select class="form-select" id="equipment" name="equipment">
+  {% for equip in equipment%}
+  {% if equip.driver == user %}
+  <option value="{{ equip.equipment_type }} {{ equip.id }}"> {{ equip.equipment_type }} {{ equip.id }} </option>
+  {% else %}
+  {% endif %}
+  {% endfor %}
+</select>
+
 
   {{ form.as_p }}
 
