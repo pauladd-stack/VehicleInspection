@@ -55,6 +55,8 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser):
 	id = models.BigAutoField(primary_key=True)
+	first_name = models.CharField(max_length=100, default="")
+	last_name = models.CharField(max_length=100, default="")
 	email = models.EmailField(
 		verbose_name='email address',
 		max_length=255,
@@ -74,14 +76,14 @@ class User(AbstractBaseUser):
 
 	def get_full_name(self):
 		# The user is identified by their email address
-		return self.email
+		return self.first_name + " " + self.last_name
 
 	def get_short_name(self):
 		# The user is identified by their email address
-		return self.email
+		return self.first_name + " " + self.last_name
 
 	def __str__(self):
-		return self.email
+		return (self.first_name + " " + self.last_name)
 
 	def has_perm(self, perm, obj=None):
 		"Does the user have a specific permission?"

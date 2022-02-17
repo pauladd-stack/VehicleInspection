@@ -10,6 +10,7 @@
 {% endif %}
 
 
+
 <div class="shadow p-4 mb-5 bg-body rounded">
   <h1>Vehicle Inspection Report</h1><br/>
 
@@ -45,21 +46,40 @@
 
 
 <script type="text/javascript">
-$("#engine").hide();
-$("#engine".label).hide();
-$('#engine_check').click(function(){
+
+function myFunction(x){
+  if(x.style.display === 'none'){
+    x.style.display = 'block'
+  }
+
+  else{
+    x.style.display = 'none'
+  }
+};
+
+
+x = document.getElementById("engine");
+b = document.getElementById("engine_check");
+b.onclick = function() {myFunction(x)};
+
+/*
+$(function(){
+$(x).hide();
+$(x.label).hide();
+$(b).click(function(){
 
     if(this.checked) {
-      $("#engine").show();
+      $(x).show();
     }
 
     else{
-      $("#engine").hide();
+      $(x).hide();
     }
-
-    
-
   });
+});*/
 </script>
+
+
+
 
 {% endblock %}

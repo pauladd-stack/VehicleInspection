@@ -3,6 +3,7 @@
 	max-height:500px;
 	overflow: auto;
 }
+
 /* Hide scrollbar for Chrome, Safari and Opera */
 .no-scrollbar::-webkit-scrollbar {
     display: none;

@@ -12,8 +12,25 @@ from equipment_app.models import Equipment
 @login_required
 @driver_only
 def driver_area(request):
+	dates = []
 	obj = VehicleInspectionReport.history.all()
-	return render(request, 'driver_app/driver_area.html', {'object': obj})
+
+	current_user = request.user
+	orderby = VehicleInspectionReport.objects.order_by('-date')
+	for order in orderby:
+		if current_user == order.driver:
+			dates.append(order.date)
+
+	if not dates:
+		dates.append(0)
+
+	latest_report = dates[0]
+	#last_week = datetime.date.today() - date.timedelta(days=7)
+	today = datetime.date.today()
+	start = today - datetime.timedelta(days=today.weekday())
+	end = start + datetime.timedelta(days=6)
+
+	return render(request, 'driver_app/driver_area.html', {'object': obj, 'latest':latest_report, 'start':start, 'end':end})
 
 @login_required
 @driver_only
@@ -25,7 +42,7 @@ def inspection_report(request):
 			driver.driver = request.user
 			driver.equipment = request.POST['equipment']
 			driver.lastUpdatedUser = datetime.datetime.now()
-			driver._change_reason = 'Driver created a new ticket'
+			driver._change_reason = str(request.user) + ' created a new ticket'
 			driver.save()
 			messages.success(request, 'Submitted')
 			return redirect('inspection_report')
@@ -49,11 +66,10 @@ class report_list(ListView):
 	ordering = ['-date']
 
 	def get_queryset(self):
-		truck = self.request.GET.get('truck')
-		print(truck)
+		equipment = self.request.GET.get('equipment')
 		object_list = self.model.objects.all()
-		if truck:
-			object_list = self.model.objects.filter(truck__icontains=truck)
+		if equipment:
+			object_list = self.model.objects.filter(equipment__icontains=equipment)
 
 		return object_list
 
@@ -66,11 +82,11 @@ class completed_driver_report_list(ListView):
 	ordering = ['-date']
 
 	def get_queryset(self):
-		truck = self.request.GET.get('truck')
-		print(truck)
+		equipment = self.request.GET.get('equipment')
+		print(equipment)
 		object_list = self.model.objects.all()
-		if truck:
-			object_list = self.model.objects.filter(truck__icontains=truck)
+		if equipment:
+			object_list = self.model.objects.filter(equipment__icontains=equipment)
 
 		return object_list
 
@@ -85,7 +101,7 @@ def driver_report_details(request, report_id):
 		if "reopen-btn" in request.POST:
 			post = form.save(commit=False)
 			post.lastUpdatedUser = datetime.datetime.now()
-			post._change_reason = 'Driver reopened ticket'
+			post._change_reason = str(request.user) + ' reopened ticket'
 			post.repairStatus = False
 			post.save()
 			messages.success(request, ("Reopened Report!"))
@@ -93,7 +109,7 @@ def driver_report_details(request, report_id):
 		else:
 			post = form.save(commit=False)
 			post.lastUpdatedUser = datetime.datetime.now()
-			post._change_reason = 'Driver updated ticket'
+			post._change_reason = str(request.user) + ' updated ticket'
 			post.save()
 			messages.success(request, ("Updated Report!"))
 			return redirect('report_list')

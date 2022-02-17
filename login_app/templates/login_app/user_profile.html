@@ -8,26 +8,54 @@
         </div>
     {% endif %}
 
+<div class="container">
 
+<div class="row">
+    <div class="col">
 
 <div class="shadow p-4 mb-5 bg-body rounded">
   <h1>Update User</h1>
-  <br/>{{ user_pk }} {{ user_pk.id }}
-<form action="" method=POST>
+<form action="" method=POST id="user-form">
 	{% csrf_token %}
   
 
-  {{ form.as_p }}
+  {{ userform.as_p }}
 
   <br/>
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="btn btn-primary" name="user-submit" id="user-submit">Submit</button>
+
 
 </form>
+</div>
+</div>
+
+<div class="col">
+
+<div class="shadow p-4 mb-5 bg-body rounded">
+  <h1>Change Password</h1>
+<form action="" method=POST id="pw-form">
+  {% csrf_token %}
+  
+
+  {{ pwform.as_p }}
+
+  <br/>
+  <button type="submit" class="btn btn-primary" name="pw-submit" id="pw-submit">Submit</button>
+
+</form>
+
+
+</div></div></div></div>
+
+
+
+
+
 <style>
 .custom-radio-list {
   list-style-type: none;
 }
 </style>
-</div>
+
 
 {% endblock %}

@@ -84,9 +84,25 @@ def change_password(request, user_id):
 @login_required
 @admin_only
 def admin_area(request):
+	dates = []
 	obj = VehicleInspectionReport.history.all()
 
-	return render(request, 'user_app/admin_area.html', {'object': obj})
+	current_user = request.user
+	orderby = VehicleInspectionReport.objects.order_by('-date')
+	for order in orderby:
+		if current_user == order.driver:
+			dates.append(order.date)
+
+	if not dates:
+		dates.append(0)
+
+	latest_report = dates[0]
+	#last_week = datetime.date.today() - date.timedelta(days=7)
+	today = datetime.date.today()
+	start = today - datetime.timedelta(days=today.weekday())
+	end = start + datetime.timedelta(days=6)
+
+	return render(request, 'user_app/admin_area.html', {'object': obj, 'latest':latest_report, 'start':start, 'end':end})
 
 
 
@@ -117,7 +133,7 @@ def report_pdf(request):
 	lines = []
 
 	for report in reports:
-		lines.append(f'{report.truck}\n {report.driver}')
+		lines.append(f'{report.equipment}\n {report.driver}')
 
 		
 
@@ -142,10 +158,10 @@ def report_csv(request):
 
 	reports = VehicleInspectionReport.objects.all()
 
-	writer.writerow(['Truck', 'Driver', 'Date', 'Status'])
+	writer.writerow(['Equipment', 'Driver', 'Date', 'Status'])
 
 	for report in reports:
-		writer.writerow([report.truck, report.driver, report.date, report.repairStatus])
+		writer.writerow([report.equipment, report.driver, report.date, report.repairStatus])
 
 	return response
 

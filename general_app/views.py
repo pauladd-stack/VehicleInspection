@@ -11,6 +11,9 @@ def pricing(request):
 def features(request):
 	return render(request, 'general_app/features.html', {})
 
+def support(request):
+	return render(request, 'general_app/support.html', {})
+
 
 def handler404(request, *args, **argv):
 	return render(request, '404.html', status=404)
