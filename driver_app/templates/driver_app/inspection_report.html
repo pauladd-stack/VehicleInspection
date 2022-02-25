@@ -1,6 +1,7 @@
 {% extends 'general_app/base.html' %}
-
+{% load static %}
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/driver_app/inspection_report.css '%}">
     
 {% if form.errors %}
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -47,36 +48,66 @@
 
 <script type="text/javascript">
 
-function myFunction(x){
+function myFunction(x, s){
+  s = s || x;
+  
   if(x.style.display === 'none'){
+    s.style.display = 'block'
     x.style.display = 'block'
   }
 
   else{
+    s.style.display = 'none'
     x.style.display = 'none'
+    x.value=''
   }
 };
 
 
-x = document.getElementById("engine");
-b = document.getElementById("engine_check");
-b.onclick = function() {myFunction(x)};
+a = document.getElementById("engine_check");
+a.onclick = function() {myFunction(x = document.getElementById("engine"))};
 
-/*
-$(function(){
-$(x).hide();
-$(x.label).hide();
-$(b).click(function(){
+b = document.getElementById("transmission_check");
+b.onclick = function() {myFunction(x = document.getElementById("transmission"))};
 
-    if(this.checked) {
-      $(x).show();
-    }
+c = document.getElementById("steering_check");
+c.onclick = function() {myFunction(x = document.getElementById("steering"))};
 
-    else{
-      $(x).hide();
-    }
-  });
-});*/
+d = document.getElementById("horn_check");
+d.onclick = function() {myFunction(x = document.getElementById("horn"))};
+
+e = document.getElementById("wipers_check");
+e.onclick = function() {myFunction(x = document.getElementById("wipers"))};
+
+f = document.getElementById("mirrors_check");
+f.onclick = function() {myFunction(x = document.getElementById("mirrors"))};
+
+g = document.getElementById("lights_check");
+g.onclick = function() {myFunction(x = document.getElementById("lights"), s = document.getElementById("lights_type"))};
+
+h = document.getElementById("brakes_check");
+h.onclick = function() {myFunction(x = document.getElementById("brakes"))};
+
+i = document.getElementById("air_lines_check");
+i.onclick = function() {myFunction(x = document.getElementById("air_lines"))};
+
+j = document.getElementById("tires_check");
+j.onclick = function() {myFunction(x = document.getElementById("tires"))};
+
+k = document.getElementById("wheels_check");
+k.onclick = function() {myFunction(x = document.getElementById("wheels"))};
+
+l = document.getElementById("emergency_check");
+l.onclick = function() {myFunction(x = document.getElementById("emergency"), s = document.getElementById("emergency_type"))};
+
+m = document.getElementById("coupling_check");
+m.onclick = function() {myFunction(x = document.getElementById("coupling"))};
+
+n = document.getElementById("engine_check");
+n.onclick = function() {myFunction(x = document.getElementById("engine"))};
+
+o = document.getElementById("other_check");
+o.onclick = function() {myFunction(x = document.getElementById("other"))};
 </script>
 
 

@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from driver_app.forms import VehicleInspectionForm
+from driver_app.forms import VehicleInspectionForm, MechVehicleInspectionForm
 from driver_app.models import VehicleInspectionReport
 from django.views.generic import ListView, DetailView
 from django.urls import resolve
@@ -74,8 +74,7 @@ class completed_mech_report_list(ListView):
 def mechanic_report_details(request, report_id):
 
 	report_pk = VehicleInspectionReport.objects.get(id=report_id)
-	form = VehicleInspectionForm(request.POST or None, instance=report_pk)
-	form.fields['repairStatus'].label = ""
+	form = MechVehicleInspectionForm(request.POST or None, instance=report_pk)
 	if form.is_valid():
 		if "complete-btn" in request.POST:
 			post = form.save(commit=False)

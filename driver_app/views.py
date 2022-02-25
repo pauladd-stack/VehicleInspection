@@ -40,6 +40,7 @@ def inspection_report(request):
 		if form.is_valid():
 			driver = form.save(commit=False)
 			driver.driver = request.user
+			driver.repairStatus = False
 			driver.equipment = request.POST['equipment']
 			driver.lastUpdatedUser = datetime.datetime.now()
 			driver._change_reason = str(request.user) + ' created a new ticket'
@@ -96,7 +97,6 @@ class completed_driver_report_list(ListView):
 def driver_report_details(request, report_id):
 	report_pk = VehicleInspectionReport.objects.get(id=report_id)
 	form = VehicleInspectionForm(request.POST or None, instance=report_pk)
-	form.fields['repairStatus'].label = ""
 	if form.is_valid():
 		if "reopen-btn" in request.POST:
 			post = form.save(commit=False)

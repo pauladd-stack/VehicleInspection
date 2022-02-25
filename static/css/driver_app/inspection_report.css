@@ -1,0 +1,42 @@
+
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #fff;
+  margin: 0;
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  background-color: #fff;
+  margin: 0;
+  font: inherit;
+  color: currentColor;
+  width: 1.55em;
+  height: 1.55em;
+  transform: translateY(0.30em);
+ 	}
+
+input[type="checkbox"] {
+
+  display: inline-grid;
+  place-content: center;
+}
+
+
+input[type="checkbox"]::before {
+  content: "\2b";
+  color:#5cb85c;
+  width: 1.15em;
+  height: 1.15em;
+  transform: scale(2) translateX(.2em) translateY(-.3em);
+}
+
+input[type="checkbox"]:checked::before {
+  content: "\f1f8";
+  font-family: FontAwesome;
+  color: #d9534f;
+  width: 1.15em;
+  height: 1.15em;
+  transform: scale(1) translateX(.2em) translateY(-.3em);
+}

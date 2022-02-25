@@ -104,4 +104,227 @@
 		}
 		</script>
 
+
+<script type="text/javascript">
+window.onload = function myFunction(){
+		a = document.getElementById("engine_check"); a.style.display = 'none'; 
+		b = document.getElementById("transmission_check"); b.style.display = 'none';
+		c = document.getElementById("steering_check"); c.style.display = 'none';
+		d = document.getElementById("horn_check"); d.style.display = 'none';
+		e = document.getElementById("wipers_check"); e.style.display = 'none';
+		f = document.getElementById("mirrors_check"); f.style.display = 'none';
+		g = document.getElementById("lights_check"); g.style.display = 'none';
+		h = document.getElementById("brakes_check"); h.style.display = 'none';
+		i = document.getElementById("air_lines_check"); i.style.display = 'none';
+		j = document.getElementById("tires_check"); j.style.display = 'none';
+		k = document.getElementById("wheels_check"); k.style.display = 'none';
+		l = document.getElementById("emergency_check"); l.style.display = 'none';
+		m = document.getElementById("coupling_check"); m.style.display = 'none';
+		n = document.getElementById("engine_check"); n.style.display = 'none';
+		o = document.getElementById("other_check"); o.style.display = 'none';
+
+
+
+		if(a.checked){
+			a1= a.id.split('_')[0];
+			a2 = document.getElementById(a1)
+			a2.style.display = 'block'
+		}
+		else{
+			$('label[for="engine_check"]').hide();
+		}
+
+		if(b.checked){
+			b1= b.id.split('_')[0];
+			b2 = document.getElementById(b1)
+			b2.style.display = 'block'
+		}
+		else{
+			$('label[for="transmission_check"]').hide();
+		}
+
+		if(c.checked){
+			c1= c.id.split('_')[0];
+			c2 = document.getElementById(c1)
+			c2.style.display = 'block'
+		}
+		else{
+			$('label[for="steering_check"]').hide();
+		}
+
+		if(d.checked){
+			d1= d.id.split('_')[0];
+			d2 = document.getElementById(d1)
+			d2.style.display = 'block'
+		}
+		else{
+			$('label[for="horn_check"]').hide();
+		}
+
+		if(a.checked){
+			e1= e.id.split('_')[0];
+			e2 = document.getElementById(e1)
+			e2.style.display = 'block'
+		}
+		else{
+			$('label[for="wipers_check"]').hide();
+		}
+
+		if(f.checked){
+			f1= f.id.split('_')[0];
+			f2 = document.getElementById(f1)
+			f2.style.display = 'block'
+		}
+		else{
+			$('label[for="mirrors_check"]').hide();
+		}
+		
+		if(g.checked){
+			g1= g.id.split('_')[0];
+			g2 = document.getElementById(g1)
+			g2.style.display = 'block'
+		}
+		else{
+			$('label[for="lights_check"]').hide();
+		}
+
+		if(h.checked){
+			h1= h.id.split('_')[0];
+			h2 = document.getElementById(h1)
+			h2.style.display = 'block'
+		}
+		else{
+			$('label[for="brakes_check"]').hide();
+		}
+
+		if(i.checked){
+			i1= i.id.split('_')[0];
+			i2 = document.getElementById(i1)
+			i2.style.display = 'block'
+		}
+		else{
+			$('label[for="air_lines_check"]').hide();
+		}
+
+		if(j.checked){
+			j1= j.id.split('_')[0];
+			j2 = document.getElementById(j1)
+			j2.style.display = 'block'
+		}
+		else{
+			$('label[for="tires_check"]').hide();
+		}
+
+		if(k.checked){
+			k1= k.id.split('_')[0];
+			k2 = document.getElementById(k1)
+			k2.style.display = 'block'
+		}
+		else{
+			$('label[for="wheels_check"]').hide();
+		}
+
+		if(l.checked){
+			l1= l.id.split('_')[0];
+			l2 = document.getElementById(l1)
+			l2.style.display = 'block'
+		}
+		else{
+			$('label[for="emergency_check"]').hide();
+		}
+
+		if(m.checked){
+			m1= m.id.split('_')[0];
+			m2 = document.getElementById(m1)
+			m2.style.display = 'block'
+		}
+		else{
+			$('label[for="coupling_check"]').hide();
+		}
+
+		if(n.checked){
+			n1= n.id.split('_')[0];
+			n2 = document.getElementById(n1)
+			n2.style.display = 'block'
+		}
+		else{
+			$('label[for="engine_check"]').hide();
+		}
+
+		if(o.checked){
+			o1= o.id.split('_')[0];
+			o2 = document.getElementById(o1)
+			o2.style.display = 'block'
+		}
+		else{
+			$('label[for="other_check"]').hide();
+		}
+
+	};
+
+
+/*
+function myFunction(x, s){
+  s = s || x;
+  
+  if(x.style.display === 'none'){
+    s.style.display = 'block'
+    x.style.display = 'block'
+  }
+
+  else{
+    s.style.display = 'none'
+    x.style.display = 'none'
+    x.value=''
+  }
+};
+
+
+a = document.getElementById("engine_check");
+a.onclick = function() {myFunction(x = document.getElementById("engine"))};
+
+b = document.getElementById("transmission_check");
+b.onclick = function() {myFunction(x = document.getElementById("transmission"))};
+
+c = document.getElementById("steering_check");
+c.onclick = function() {myFunction(x = document.getElementById("steering"))};
+
+d = document.getElementById("horn_check");
+d.onclick = function() {myFunction(x = document.getElementById("horn"))};
+
+e = document.getElementById("wipers_check");
+e.onclick = function() {myFunction(x = document.getElementById("wipers"))};
+
+f = document.getElementById("mirrors_check");
+f.onclick = function() {myFunction(x = document.getElementById("mirrors"))};
+
+g = document.getElementById("lights_check");
+g.onclick = function() {myFunction(x = document.getElementById("lights"), s = document.getElementById("lights_type"))};
+
+h = document.getElementById("brakes_check");
+h.onclick = function() {myFunction(x = document.getElementById("brakes"))};
+
+i = document.getElementById("air_lines_check");
+i.onclick = function() {myFunction(x = document.getElementById("air_lines"))};
+
+j = document.getElementById("tires_check");
+j.onclick = function() {myFunction(x = document.getElementById("tires"))};
+
+k = document.getElementById("wheels_check");
+k.onclick = function() {myFunction(x = document.getElementById("wheels"))};
+
+l = document.getElementById("emergency_check");
+l.onclick = function() {myFunction(x = document.getElementById("emergency"), s = document.getElementById("emergency_type"))};
+
+m = document.getElementById("coupling_check");
+m.onclick = function() {myFunction(x = document.getElementById("coupling"))};
+
+n = document.getElementById("engine_check");
+n.onclick = function() {myFunction(x = document.getElementById("engine"))};
+
+o = document.getElementById("other_check");
+o.onclick = function() {myFunction(x = document.getElementById("other"))};*/
+</script>
+
+
 {% endblock %}

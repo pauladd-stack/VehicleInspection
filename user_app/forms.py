@@ -48,7 +48,6 @@ class UserAdminCreationForm(forms.ModelForm):
     """
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class':'form-control'}))
     password_2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput(attrs={'class':'form-control'}))
-    role = forms.ChoiceField(widget=forms.RadioSelect(attrs={'class': "custom-radio-list"}), choices=[('Driver', 'Driver'), ('Mechanic', 'Mechanic'), ('Admin', 'Admin')])
 
     class Meta:
         model = User
@@ -59,7 +58,7 @@ class UserAdminCreationForm(forms.ModelForm):
         self.fields['email'].widget.attrs['class'] = 'form-control'
         self.fields['first_name'].widget = forms.widgets.TextInput(attrs={'class': "form-control"})
         self.fields['last_name'].widget = forms.widgets.TextInput(attrs={'class': "form-control"})
-
+        self.fields['role'].widget.attrs['class'] = 'form-select'
 
     def clean(self):
         '''
@@ -90,13 +89,23 @@ class UserAdminChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'is_active', 'admin', 'role']
+        fields = ['first_name', 'last_name', 'email', 'role', 'is_active', 'admin']
+
+    def __init__(self, *args, **kwargs):
+        super(UserAdminChangeForm, self).__init__(*args, **kwargs)
+        self.fields['first_name'].widget = forms.widgets.TextInput(attrs={'class': "form-control"})
+        self.fields['last_name'].widget = forms.widgets.TextInput(attrs={'class': "form-control"})
+        self.fields['email'].widget = forms.widgets.TextInput(attrs={'class': "form-control"})
+        self.fields['role'].widget.attrs['class'] = 'form-select'
 
     #def clean_password(self):
         # Regardless of what the user provides, return the initial value.
         # This is done here, rather than on the field, because the
         # field does not have access to the initial value
         #return self.initial["password"]
+
+
+
 
 class ProfileUserChangeForm(forms.ModelForm):
     """A form for updating users. Includes all the fields on

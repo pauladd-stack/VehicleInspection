@@ -54,6 +54,14 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
+
+	ROLE_CHOICES = (
+		('Admin', 'Admin'),
+		('Driver', 'Driver'),
+		('Mechanic', 'Mechanic'),
+	)
+
+
 	id = models.BigAutoField(primary_key=True)
 	first_name = models.CharField(max_length=100, default="")
 	last_name = models.CharField(max_length=100, default="")
@@ -66,7 +74,8 @@ class User(AbstractBaseUser):
 	staff = models.BooleanField(default=False) # a admin user; non super-user
 	admin = models.BooleanField(default=False) # a superuser
 
-	role = models.CharField(max_length=255)
+	#role = models.CharField(max_length=255)
+	role = models.CharField(max_length=8, choices=ROLE_CHOICES, default="Driver")
 
 
 	# notice the absence of a "Password field", that is built in.
