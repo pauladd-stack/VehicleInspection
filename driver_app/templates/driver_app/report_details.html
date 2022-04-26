@@ -1,15 +1,11 @@
 {% extends 'general_app/base.html' %}
-
+{% load static %}
 {% block content %}
+<link rel="stylesheet" href="{% static 'css/driver_app/inspection_report.css '%}">
 
 <a  onclick="history.back(-1)" role="button"><span class="fas fa-chevron-left"></span> Back</a>
 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-{% if report_pk.repairStatus == 0 %}
 <label class="btn btn-secondary" for="update-form" tabindex="0">Update Repair</label>
-{% else %}
-<h4>Not Repaired?...</h4>
-<label class="btn btn-secondary" for="reopen-form" tabindex="0">re-Open Repair Ticket</label>
-{% endif %}
 </div>
 
     
@@ -17,21 +13,103 @@
 <h1>Report</h1>
 
 <div class="shadow p-4 mb-5 bg-body rounded">
-	<form action="" method=POST>
-	{% csrf_token %}
 	{{ report_pk.driver }} <br/>
 	{{ report_pk.id }} <br/>
 	{{ report_pk.repairStatus }} <br/>
+	<form action="" method=POST>
+	{% csrf_token %}
+	
   
 
   	{{ form.as_p }}
   	<br/>
-  	<input type="submit" id="update-form" name="updated-btn" class="d-none"/>
-  	<input type="submit" id="reopen-form" name="reopen-btn" class="d-none"/>
-  	
 
+  	<input type="submit" id="update-form" name="updated-btn" class="d-none"/>
+  	
 	</form>
 
 </div>
+
+<script type="text/javascript">
+	a = document.getElementById("engine_check");
+	adesc = document.getElementById("engine");
+	b = document.getElementById("transmission_check");
+	bdesc = document.getElementById("transmission");
+	c = document.getElementById("steering_check");
+	cdesc = document.getElementById("steering");
+	d = document.getElementById("horn_check");
+	ddesc = document.getElementById("horn");
+	e = document.getElementById("wipers_check");
+	edesc = document.getElementById("wipers");
+	f = document.getElementById("mirrors_check");
+	fdesc = document.getElementById("mirrors");
+	g = document.getElementById("lights_check");
+	gdesc = document.getElementById("lights");
+	gtype = document.getElementById("lights_type");
+	h = document.getElementById("brakes_check");
+	hdesc = document.getElementById("brakes");
+	i = document.getElementById("air_lines_check");
+	idesc = document.getElementById("aire_lines");
+	j = document.getElementById("tires_check");
+	jdesc = document.getElementById("tires");
+	k = document.getElementById("wheels_check");
+	kdesc = document.getElementById("wheels");
+	l = document.getElementById("emergency_check");
+	ldesc = document.getElementById("emergency");
+	ltype = document.getElementById("emergency_type");
+	m = document.getElementById("coupling_check");
+	mdesc = document.getElementById("coupling");
+	n = document.getElementById("other_check");
+	ndesc = document.getElementById("other");
+		
+	window.onload = showChecked(a, adesc), showChecked(b, bdesc), showChecked(c, cdesc), showChecked(d, ddesc), showChecked(e, edesc), showChecked(f, fdesc), showChecked(g, gdesc, gtype), showChecked(h, hdesc), showChecked(i, idesc), showChecked(j, jdesc), showChecked(k, kdesc), showChecked(l, ldesc, ltype), showChecked(m, mdesc), showChecked(n, ndesc);
+	
+	a.onclick = function() {checkingBox(x = adesc)};
+	b.onclick = function() {checkingBox(x = bdesc)};
+	c.onclick = function() {checkingBox(x = cdesc)};
+	d.onclick = function() {checkingBox(x = ddesc)};
+	e.onclick = function() {checkingBox(x = edesc)};
+	f.onclick = function() {checkingBox(x = fdesc)};
+	g.onclick = function() {checkingBox(x = gdesc, s = document.getElementById("lights_type"))};
+	h.onclick = function() {checkingBox(x = hdesc)};
+	i.onclick = function() {checkingBox(x = idesc)};
+	j.onclick = function() {checkingBox(x = jdesc)};
+	k.onclick = function() {checkingBox(x = kdesc)};
+	l.onclick = function() {checkingBox(x = ldesc, s = document.getElementById("emergency_type"))};
+	m.onclick = function() {checkingBox(x = mdesc)};
+	n.onclick = function() {checkingBox(x = ndesc)};
+
+
+	function showChecked(x, xdesc, xtype){
+		xtype = xtype || xdesc;
+		
+
+			if(x.checked){
+				xdesc.style.display = 'block';
+				xtype.style.display = 'block';
+			}
+
+		};
+
+
+	function checkingBox(x, s){
+	  s = s || x;
+	  
+	  if(x.style.display === 'none'){
+	    s.style.display = 'block'
+	    x.style.display = 'block'
+	  }
+
+	  else{
+	    s.style.display = 'none'
+	    x.style.display = 'none'
+	    x.value=''
+	  }
+	};
+
+
+	
+</script>
+
 
 {% endblock %}

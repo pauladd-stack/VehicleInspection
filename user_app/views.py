@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import get_user_model, authenticate, login, logout, update_session_auth_hash
 from .models import User
 from django.contrib import messages
-from .forms import UserAdminCreationForm, UserAdminChangeForm
+from .forms import UserAdminCreationForm, UserAdminChangeForm, UserAdminChangeForm
 from django.contrib.auth.forms import SetPasswordForm
 from django.views.generic import ListView, DetailView
 from driver_app.models import VehicleInspectionReport
@@ -19,8 +19,6 @@ from reportlab.lib.units import inch
 from reportlab.lib.pagesizes import letter 
 
 
-
-
 @login_required
 @admin_only
 def register_user(request):
@@ -33,26 +31,55 @@ def register_user(request):
 			password = form.cleaned_data['password']
 			user = authenticate(email=email, password=password)
 			messages.success(request, ("Created User!"))
-			return redirect('register_user')
+			return redirect('user_list')
 	else:
 		form = UserAdminCreationForm()
-	return render(request, 'user_app/register_user.html', {
-		'form':form
-		})
 
 
 @login_required
 @admin_only
 def update_user(request, user_id):
+	
 	user_pk = User.objects.get(id=user_id)
-	form = UserAdminChangeForm(request.POST or None, instance=user_pk)
-	if form.is_valid():
-		form.save()
-		messages.success(request, ("Updated User!"))
-		return redirect('user_list')
+
+	if request.method == "POST":
+
+		if 'user-submit' in request.POST:
+			userform = UserAdminChangeForm(request.POST or None, instance=user_pk)
+			pwform = SetPasswordForm(user=user_pk, data=request.POST)
+			if userform.is_valid():
+				userform.save()
+				messages.success(request, ("Updated User!"))
+				return redirect('user_list')
+			else:
+				messages.success(request, ("Error changing information!"))
+
+
+		elif 'pw-submit' in request.POST:
+			userform = UserAdminChangeForm(None, instance=user_pk)
+			pwform = SetPasswordForm(user=user_pk, data=request.POST)
+			if pwform.is_valid():
+				pwform.save()
+				update_session_auth_hash(request, pwform.user)
+				messages.success(request, ("Updated User!"))
+				return redirect('user_list')
+			else:
+				messages.success(request, ("Error changing information!"))
+
+
+		else:
+			messages.success(request, ("Something went wrong!"))
+	else:
+		userform = UserAdminChangeForm(request.POST or None, instance=user_pk)
+		pwform = SetPasswordForm(user=user_pk, data=request.POST)
+
+
 	return render(request, 'user_app/update_user.html', {
-		'form':form, 'user_pk':user_pk
+		'userform':userform, 'pwform':pwform, 'user_pk':user_pk
 		})
+
+
+
 
 @login_required
 @admin_only
@@ -61,6 +88,7 @@ def delete_user(request, user_id):
 	user.delete()
 	messages.success(request, ("Deleted User!"))
 	return redirect('user_list')
+
 
 @login_required
 @admin_only
@@ -83,34 +111,9 @@ def change_password(request, user_id):
 
 @login_required
 @admin_only
-def admin_area(request):
-	dates = []
-	obj = VehicleInspectionReport.history.all()
-
-	current_user = request.user
-	orderby = VehicleInspectionReport.objects.order_by('-date')
-	for order in orderby:
-		if current_user == order.driver:
-			dates.append(order.date)
-
-	if not dates:
-		dates.append(0)
-
-	latest_report = dates[0]
-	#last_week = datetime.date.today() - date.timedelta(days=7)
-	today = datetime.date.today()
-	start = today - datetime.timedelta(days=today.weekday())
-	end = start + datetime.timedelta(days=6)
-
-	return render(request, 'user_app/admin_area.html', {'object': obj, 'latest':latest_report, 'start':start, 'end':end})
-
-
-
-@login_required
-@admin_only
 def delete_report(request, report_id):
 	report = VehicleInspectionReport.objects.get(id=report_id)
-	report._change_reason = 'Admin deleted report ' + VehicleInspectionReport.objects.get(id=report_id).truck
+	report._change_reason = 'Admin deleted report ' + str(VehicleInspectionReport.objects.get(id=report_id).equipment)
 	report.lastUpdatedMech = datetime.datetime.now()
 	report.delete()
 	messages.success(request, ("Deleted Report!"))
@@ -171,6 +174,7 @@ def report_csv(request):
 class user_list(ListView):
 	model = User
 	template_name = "user_list.html"
+	paginate_by = 20
 
 	def get_queryset(self):
 		email = self.request.GET.get('email')
@@ -180,3 +184,8 @@ class user_list(ListView):
 			object_list = self.model.objects.filter(email__icontains=email)
 
 		return object_list
+
+	def get_context_data(self, **kwargs):
+		context = super(user_list, self).get_context_data(**kwargs)
+		context['form'] = UserAdminCreationForm()
+		return context

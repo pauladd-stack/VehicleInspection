@@ -1,9 +1,5 @@
 {% extends 'general_app/base.html' %}
-{% load static %}
 {% block content %}
-
-<link rel="stylesheet" href="{% static 'css/user_app/update_user.css '%}">
-
     
 {% if form.errors %}
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -11,21 +7,56 @@
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria label="Close"></button>
         </div>
     {% endif %}
+    <a  onclick="history.back(-1)" role="button"><span class="fas fa-chevron-left"></span> Back</a>
 
+<div class="container">
 
+<div class="row">
+    <div class="col">
 
 <div class="shadow p-4 mb-5 bg-body rounded">
   <h1>Update User</h1>
-  <br/>{{ user_pk }} {{ user_pk.id }}
-<form action="" method=POST>
-	{% csrf_token %}
+<form action="" method=POST id="user-form">
+  {% csrf_token %}
   
 
-  {{ form.as_p }}
+  {{ userform.as_p }}
 
   <br/>
-  <button type="submit" class="btn btn-primary">Submit</button>
+  <button type="submit" class="btn btn-primary" name="user-submit" id="user-submit">Submit</button>
+
 
 </form>
 </div>
+</div>
+
+<div class="col">
+
+<div class="shadow p-4 mb-5 bg-body rounded">
+  <h1>Change Password</h1>
+<form action="" method=POST id="pw-form">
+  {% csrf_token %}
+  
+
+  {{ pwform.as_p }}
+
+  <br/>
+  <button type="submit" class="btn btn-primary" name="pw-submit" id="pw-submit">Submit</button>
+
+</form>
+
+
+</div></div></div></div>
+
+
+
+
+
+<style>
+.custom-radio-list {
+  list-style-type: none;
+}
+</style>
+
+
 {% endblock %}

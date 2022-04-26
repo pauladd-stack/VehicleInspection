@@ -6,84 +6,88 @@
 <link rel="stylesheet" href="{% static 'css/modal.css '%}">
 
 
-<h1>Users</h1>
-
-<div>
+<!----------------------------------------------------------------------SIDE BAR---------------->
+<div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px; float:left;">
+    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+      <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+      <span class="fs-4">Users</span>
+    </a>
+    <hr>
 <form class="d-flex" method="GET" action="" id="form1">
-	<input class="form-control me-2" type="search" name="email" id="email" value="{{ request.GET.email }}" placeholder="Search for user..."><span><button class="btn btn-primary" type="submit">Search</button></span></input>
+	<input class="form-control me-2" type="search" name="email" id="email" value="{{ request.GET.email }}" placeholder="User email"><span><button class="btn btn-primary" type="submit">Search</button></span></input>
 	<button id="btnClear" class="d-none"></button>
 </form>
-</div>
 <br/>
+
+
+
+    
+  </div>
+
+
 
 <label for="btnClear" class="d-none" id="btnCLearLabel"><span><i class="fas fa-times"></i></span></label>
 
-<script type="text/javascript">
-			$(document).ready(function () {
-  
-                var inputString = $("#email").val();
-                console.log(inputString);
-
-            if(inputString != '') {
-		      $("#btnCLearLabel").removeClass('d-none');
-		    }
-
-		    else{
-		      $("#btnCLearLabel").addClass("d-none");
-		    }
-        });
-		</script>
 
 
+<div class="shadow p-4 mb-5 bg-body rounded d-flex flex-column" style="margin-left:300px;">
+	<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+	<a onclick="document.getElementById('id02').style.display='block'" class="btn btn-success">Add User</a>
+</div>
+<br/>
 
-<script>
-	$(document).ready(function(){
-		$('#btnClear').click(function(){
-				/*Clear all input type="text" box*/
-				$('#form1 input[type="text"]').val('');
-				/*Clear textarea using id */
-				$('#form1 #email').val('');				
-		});
-	});
-</script>
+<div id="equipment-list">
 
+<table class="table">
+<thead>
+  <tr>
+    <th scope="col">Email</th>
+    <th scope="col">Role</th>
+    <th scope="col">Active</th>
+    <th scope="col">Admin</th>
+    <th scope="col">Staff</th>
+    <th scope="col">Update</th>
+    <th scope="col">Delete</th>
+  </tr>
+</thead>
+<tbody>
 
-
-
-<div class="row row-cols-1 row-cols-md-3 g-4">
  
-	{% for user in object_list %}
-	<div class="col">
-	<div class="card zoom">
-		<div class="card-body">
-			<h5 class="card-title">{{user.email}}</h5>
-			<h6 class="card-subtitle mb-2 text-muted">{{user.role}}</h6>
-			<p class="card-text">
-			{% if user.is_active %}
+ {% for user in object_list %}
+	<tr>
+      <th scope="row">{{user.email}}</th>
+      <td>{{user.role}}</td>
+      <td>
+      	{% if user.is_active %}
 			ACTIVE<br/>
 			{% else %}
 			INACTIVE<br/>
 			{% endif %}
+		</td>
+		<td>
 			{% if user.is_admin %}
 			Administrator<br/>
 			{% else %}
 			Not administrator<br/>
 			{% endif %}
+		</td>
+		<td>
 			{% if user.is_staff %}
 			Staff Member<br/>
 			{% else %}
 			Not Staff<br/>
 			{% endif %}
-			</p>
-			<div class="d-grid gap-2 d-md-block">
-			<br/>
-			<a href="{% url 'update_user' user.id %}" class="btn btn-primary btn-sm">Update</a>
-			<a href="{% url 'change_password' user.id %}" class="btn btn-secondary btn-sm">Pass Change</a>
-			<a onclick="document.getElementById('id01').style.display='block'" class="btn btn-danger btn-sm">Delete</a>
-		</div>
-		</div>
-	</div>
-	</div>
+		</td>
+		<td><a href="{% url 'update_user' user.id %}" class="btn btn-primary btn-sm">Update</a></td>
+		<td><a onclick="document.getElementById('id01').style.display='block'" class="btn btn-danger btn-sm">Delete</a></td>
+
+    </tr>
+{% endfor %}
+
+</tbody>
+</table>
+</div>
+</div>
 
 
 		<!-- The Modal -->
@@ -109,10 +113,73 @@
 		    </div>
 		  </form>
 		</div>
-
-	{% endfor %}
 	</div>
 
+
+<br/> <br/>
+
+
+
+
+
+
+
+<!---------------------------------------------------------------------------CREATE USER FORM -------->
+<div id="id02" class="modal" style="display:none; z-index:999;">
+
+	<div class="shadow p-4 mb-5 bg-body rounded modal-content">
+		<a style="margin-left: auto; margin-right: 0;" onclick="document.getElementById('id02').style.display='none'" class="btn"><span><i class="fas fa-times"></i></span></a>
+	  <h1>Create User</h1>
+	<form action="{% url 'register_user' %}" method=POST>
+		{% csrf_token %}
+	  
+
+	  {{ form.as_p }}
+
+	  <br/>
+	  <div class="me-2">
+	  	<a onclick="document.getElementById('id02').style.display='none'" class="btn btn-danger">Cancel</a>
+		  <button type="submit" class="btn btn-primary">Create</button>
+		</div>
+
+
+	</form>
+	</div>
+</div>
+
+
+             
+    <!---------------------------------------------Show clear button--------------------->
+		<script type="text/javascript">
+					$(document).ready(function () {
+		  
+		                var inputString = $("#email").val();
+		                console.log(inputString);
+
+		            if(inputString != '') {
+				      $("#btnCLearLabel").removeClass('d-none');
+				    }
+
+				    else{
+				      $("#btnCLearLabel").addClass("d-none");
+				    }
+		        });
+				</script>
+
+
+		<!---------------------------------------------Clear button functionality--------------------->
+		<script>
+			$(document).ready(function(){
+				$('#btnClear').click(function(){
+						/*Clear all input type="text" box*/
+						$('#form1 input[type="text"]').val('');
+						/*Clear textarea using id */
+						$('#form1 #email').val('');				
+				});
+			});
+		</script>
+
+		<!---------------------------------------------Delete button functionality--------------------->
 
 		<script type="text/javascript">
 		$('#delete_check').click(function(){
@@ -129,9 +196,12 @@
 		  });
 		</script>
 
+		<!---------------------------------------------Modal Hides--------------------->
 		<script>
 		// Get the modal
 		var modal = document.getElementById('id01');
+		var modal2 = document.getElementById('id02');
+
 
 		// When the user clicks anywhere outside of the modal, close it
 		window.onclick = function(event) {
@@ -139,7 +209,15 @@
 		    modal.style.display = "none";
 		  }
 		}
+
+		window.onclick = function(event) {
+		  if (event.target == modal2) {
+		    modal2.style.display = "none";
+		  }
+		}
 		</script>
+
+
 {% endblock %}
 
 

@@ -27,7 +27,9 @@
   <select class="form-select" id="equipment" name="equipment">
   {% for equip in equipment%}
   {% if equip.driver == user %}
-  <option value="{{ equip.equipment_type }} {{ equip.id }}"> {{ equip.equipment_type }} {{ equip.id }} </option>
+  
+  
+  <option value="{{ equip.id }}">{{ equip }} </option>
   {% else %}
   {% endif %}
   {% endfor %}

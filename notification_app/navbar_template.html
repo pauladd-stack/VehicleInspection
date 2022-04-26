@@ -1,0 +1,134 @@
+{% load static %}
+{% load notification_templatetag %}
+<link rel="stylesheet" href="{% static 'css/navbar.css '%}">
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">VIPR</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button> 
+
+    <div class="collapse navbar-collapse" id="navbarText">
+
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link{% if request.resolver_match.url_name == 'admin_area' %} active {% elif request.resolver_match.url_name == '' %} active{% endif %}" href="{% url 'admin_area' %}">Admin</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link{% if request.resolver_match.url_name == 'register_user' %} active{% endif %}" href="{% url 'register_user' %}">Create User</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link{% if request.resolver_match.url_name == 'user_list' %} active{% endif %}" href="{% url 'user_list' %}">Users</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link{% if request.resolver_match.url_name == 'mech_report_list' %} active{% endif %}" href="{% url 'mech_report_list' %}">Reports</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link{% if request.resolver_match.url_name == 'completed_mech_report_list' %} active{% endif %}" href="{% url 'completed_mech_report_list' %}">Completed Reports</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link{% if request.resolver_match.url_name == 'equipment_list' %} active {% elif request.resolver_match.url_name == '' %} active{% endif %}" href="{% url 'equipment_list' %}">Equipment</a>
+        </li>
+        </ul>
+       
+
+
+        {% if user.is_authenticated %}
+        <ul class="navbar-nav">
+
+
+
+          <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+           <span><i class="fas fa-bell" id="notif-icon"></i></span><span class="badge" id="notification-number">0</span>
+          </a>
+          <ul id="notification-list" class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+          <li class="nav-link" id="notif"></li>
+          {% for notif in notification|get_notification %}
+          {% if notif.driver == request.user %}
+          {% if notif.date >= time|get_time %}
+           
+          <li class="nav-link"><a class="dropdown-item">{{ notif.message }}</a></li>
+          {% endif %}
+          {% endif %}
+          {% endfor %}
+
+          </ul>
+        </li>
+        </li>
+
+        <li class="nav-item dropdown">
+          
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+
+          <span id="profile-pic">{{ user.email }}</span> <i class="fas fa-user-circle fa-2x"></i>
+          </a>
+
+
+          <ul class="dropdown-menu dropdown-menu-right dropdown-menu-dark" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{% url 'user_profile' user.id %}">Profile</a></li>
+            <li><a class="dropdown-item" href="{% url 'support' %}">Support</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+
+          </ul>
+        </li>
+      </ul>
+        
+        {% else %}
+          <a class="nav-link" href="{% url 'login' %}"> <span id="login">Login</span>
+          <i class="fas fa-sign-in-alt fa-2x" id="sign-in-logo"></i>
+          </a>
+        {% endif %}
+
+    </div>
+  </div>
+</nav>
+
+
+     <script>
+      var element = document.getElementById("notification-list");
+      var numberOfChildren = element.childElementCount-1;
+
+      document.getElementById("notification-number").innerHTML = numberOfChildren;
+
+      console.log("Hello" + ":{{time | get_time}}")
+
+    </script>
+
+
+
+
+      <script>
+        //const roomName = JSON.parse(document.getElementById('room-name').textContent);
+        const roomName = {{ request.user.id }};
+        //document.getElementById("notification-number").innerHTML = 0;
+
+        const notificationSocket = new WebSocket(
+            'ws://'
+            + window.location.host
+            + '/'
+            + roomName
+            + '/'
+        );
+
+        notificationSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            //document.querySelector('#chat-log').value += (data.message + '\n');
+            console.log(data)
+            document.getElementById("notif").innerHTML = "<a class='dropdown-item'>" + data + "</a>" + document.getElementById("notif").innerHTML;
+
+            document.getElementById("notification-number").innerHTML = parseInt(document.getElementById("notification-number").innerHTML) + 1;
+
+        };
+
+        notificationSocket.onclose = function(e) {
+            console.error('Notification socket closed unexpectedly');
+        };
+      </script>
+        

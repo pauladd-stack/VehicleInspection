@@ -1,0 +1,73 @@
+{% extends 'general_app/base.html' %}
+{% load static %}
+{% block content %}
+
+<a  onclick="history.back(-1)" role="button"><span class="fas fa-chevron-left"></span> Back</a>
+
+<div class="container">
+<div class="shadow p-4 mb-5 bg-body rounded d-flex flex-column">
+
+<h1>Equipment Details</h1>
+<hr/>
+
+<div style="display:inline-block;">
+<h2 style="float:left;"> Assigned to: </h2>
+<form method="POST" style="padding-left: 200px; padding-right:650px;">{{ form }}</form>
+</div>
+
+<h3>Mileage: {{ equip_pk.mileage }}</h3>
+
+{% if reportcount > 0 %}
+
+	{% if chart %}
+		<img src="data:image/png;base64, {{chart|safe}}">
+	{% endif %}
+
+
+	</div>
+
+
+
+
+<table class="table table-striped">
+		<thead>
+		    <tr>
+		      <th scope="col">Vehicle Reports</th>
+		      <th scope="col">Submitted By</th>
+		      <th scope="col">Date Submitted</th>
+		      
+		    </tr>
+		</thead>
+		<tbody>
+			
+
+				{% for vir in vir_pk %}
+					{% if equip_pk|stringformat:"i" == vir.equipment|stringformat:"i" %}
+						<tr>
+							<td>{{ vir.equipment }}</td>
+							<td>{{vir.driver}}</td>
+							<td>{{ vir.date }}</td>
+						</tr>
+					{% endif %}
+				{% endfor %}
+
+			
+		</tbody>
+	</table>
+
+	
+	{% else %}
+	<p> No reports have been generated for the piece of equipment...</p>
+		</div>
+	{% endif %}
+
+
+
+</div>
+
+
+
+
+
+
+{% endblock %}

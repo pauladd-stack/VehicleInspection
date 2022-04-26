@@ -1,6 +1,7 @@
 from pathlib import Path
 import os
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
@@ -28,12 +29,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'simple_history',
+    'channels',
     'user_app',
     'driver_app',
     'mechanic_app',
     'login_app',
     'general_app',
     'equipment_app',
+    #'chat_app',
+    #'ajaxnotification_app',
+    'notification_app',
+
 ]
 
 MIDDLEWARE = [
@@ -65,7 +71,16 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'vehicle_website.wsgi.application'
+#WSGI_APPLICATION = 'vehicle_website.wsgi.application'
+ASGI_APPLICATION = 'vehicle_website.asgi.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases

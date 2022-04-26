@@ -8,30 +8,34 @@ import datetime
 from django.contrib.auth.decorators import login_required
 from .forms import LoginForm
 
-'''
-def login_user(request):
-	if request.method== "POST":
-		email = request.POST.get('email')
-		password = request.POST.get('password')
-		user =  authenticate(request, email=email, password=password)
-		if user is not None:
-			login(request, user)
-			if request.user.role == 'Driver':
-				return redirect('driver_area')
-			elif request.user.role == 'Mechanic':
-				return redirect('mechanic_area')
-			elif request.user.role == 'Admin':
-				return redirect('admin_area')
-			else:
-				return redirect('home')
-		else:
-			messages.error(request, ("There was an error while logging you in!"))
-			return redirect('login')
+from driver_app.models import VehicleInspectionReport
 
 
-	else:
-		return render(request, 'login_app/login.html', {})
-'''
+
+@login_required
+def dashboard(request):
+	dates = []
+	obj = VehicleInspectionReport.history.all()
+
+	current_user = request.user
+	orderby = VehicleInspectionReport.objects.order_by('-date')
+	for order in orderby:
+		if current_user == order.driver:
+			dates.append(order.date)
+
+	if not dates:
+		dates.append(0)
+
+	latest_report = dates[0]
+	#last_week = datetime.date.today() - date.timedelta(days=7)
+	today = datetime.date.today()
+	start = today - datetime.timedelta(days=today.weekday())
+	end = start + datetime.timedelta(days=6)
+
+	return render(request, 'login_app/dashboard.html', {'object': obj, 'latest':latest_report, 'start':start, 'end':end})
+
+
+
 
 def login_user(request):
 	if request.method== "POST":
@@ -42,11 +46,11 @@ def login_user(request):
 		if user is not None:
 			login(request, user)
 			if request.user.role == 'Driver':
-				return redirect('driver_area')
+				return redirect('dashboard')
 			elif request.user.role == 'Mechanic':
-				return redirect('mechanic_area')
+				return redirect('dashboard')
 			elif request.user.role == 'Admin':
-				return redirect('admin_area')
+				return redirect('dashboard')
 			else:
 				return redirect('home')
 		else:
@@ -92,6 +96,7 @@ def user_profile(request, user_id):
 			pwform = ProfilePasswordChangeForm(request.POST or None, instance=user_pk)
 			if pwform.is_valid():
 				pwform.save()
+				update_session_auth_hash(request, pwform.user)
 				messages.success(request, ("Updated User!"))
 			else:
 				messages.success(request, ("Error changing information!"))

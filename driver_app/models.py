@@ -22,7 +22,8 @@ class VehicleInspectionReport(models.Model):
 
 	id = models.BigAutoField(primary_key=True)
 	driver = models.ForeignKey(User, on_delete=models.CASCADE)
-	equipment = models.CharField('Equipment', max_length=120, default="")
+	#equipment = models.CharField('Equipment', max_length=120, default="")
+	equipment = models.ForeignKey(Equipment, on_delete=models.CASCADE, default="")
 	date = models.DateField('Date')
 	
 	assignedMech = models.CharField('Assigned Mechanic', max_length=120, default="")
@@ -99,7 +100,7 @@ class VehicleInspectionReport(models.Model):
 
 
 
-	history = HistoricalRecords()
+	history = HistoricalRecords(cascade_delete_history=True)
 	#python manage.py clean_old_history --days 1 --auto
 	@property
 	def _history_user(self):

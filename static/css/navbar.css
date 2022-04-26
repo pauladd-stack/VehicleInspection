@@ -2,14 +2,38 @@
 	font-size: 20px;
 	vertical-align: top;
 }
+#notif-icon{
+	font-size: 20px;
+	vertical-align: bottom;
+	position:relative;
+	padding-top:.5em;
+}
+.totalunread{
+	vertical-align:center;
+	border-radius: 25%;
+	width: 20px;
+  	height: 20px;
+	background-color:red;
+	transform: translate(-30%, -50%);
+
+}
+  .marked{
+    display:none;
+  }
+
 
 #login{
 	font-size: 20px;
 	vertical-align: top;
+	color:white;
 }
 #sign-in-logo{
 	color:white;
 }
 .navbar{
 	min-height:10%;
+	}
+
+.dropdown-toggle::after {
+  content: none;
 	}

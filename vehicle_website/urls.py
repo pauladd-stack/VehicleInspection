@@ -11,6 +11,8 @@ urlpatterns = [
     path('driver/', include('driver_app.urls')),
     path('mechanic/', include('mechanic_app.urls')),
     path('equipment/', include('equipment_app.urls')),
+    path('', include('notification_app.urls')),
+    #path('', include('ajaxnotification_app.urls')),
 ]
 
 handler404 = 'general_app.views.handler404'

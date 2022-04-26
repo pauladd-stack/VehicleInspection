@@ -1,0 +1,99 @@
+{% extends 'general_app/base.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/card_zoom.css '%}">
+<link rel="stylesheet" href="{% static 'css/modal.css '%}">
+
+
+
+<!----------------------------------------------------------------------SIDE BAR---------------->
+<div class="d-flex flex-column flex-shrink-0 p-3 bg-light" style="width: 280px; float:left;">
+    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+      <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+      <span class="fs-4">Equipment</span>
+    </a>
+    <hr>
+
+    <form style="margin-left:auto; margin-right:0;" class="d-flex" method="GET" action="" id="form1">
+		<input class="form-control me-2" type="search" name="equipment" id="equipment" value="{{ request.GET.equipment }}" placeholder="Equipment #"><span><button class="btn btn-primary" type="submit">Search</button></span></input>
+		<button id="btnClear" class="d-none"></button>
+		</form>
+		<br/>
+    
+  </div>
+
+
+
+
+<label for="btnClear" class="d-none" id="btnCLearLabel"><span><i class="fas fa-times"></i></span></label>
+
+
+
+
+<div class="shadow p-4 mb-5 bg-body rounded d-flex flex-column" style="margin-left:300px;">
+
+<div id="equipment-list">
+
+<table class="table">
+<thead>
+  <tr>
+    <th scope="col">Equipment</th>
+    <th scope="col">Driver</th>
+    <th scope="col">Date Created</th>
+    <th scope="col">Details</th>
+  </tr>
+</thead>
+<tbody>
+
+ 
+ {% for equip in object_list %}
+	<tr>
+      <th scope="row">{{equip}}</th>
+      <td>{{equip.driver}}</td>
+      <td>{{equip.date}}</td>
+      <td><a href="{% url 'equipment_details' equip.pk %}" class="card-link">View Equipment Details...</a></td>
+    </tr>
+{% endfor %}
+
+</tbody>
+</table>
+</div>
+</div>
+
+
+
+
+	<script type="text/javascript">
+			$(document).ready(function () {
+  
+                var inputString = $("#equipment").val();
+                console.log(inputString);
+
+            if(inputString != '') {
+		      $("#btnCLearLabel").removeClass('d-none');
+		    }
+
+		    else{
+		      $("#btnCLearLabel").addClass("d-none");
+		    }
+        });
+		</script>
+
+
+
+<script>
+	$(document).ready(function(){
+		$('#btnClear').click(function(){
+				/*Clear all input type="text" box*/
+				$('#form1 input[type="text"]').val('');
+				/*Clear textarea using id */
+				$('#form1 #equipment').val('');				
+		});
+	});
+</script>
+
+
+{% endblock %}
+
+
